@@ -433,8 +433,12 @@ button { font: inherit; color: inherit; cursor: pointer; }
 /* Reveal (vanilla scroll animation)                                           */
 /* ========================================================================== */
 
-.rv { opacity: 0; transform: translateY(22px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
-.rv.in { opacity: 1; transform: none; }
+/* Reveals rest in their final, readable state. The hidden start is opt-in and
+   only ever applied once the inline boot script confirms JS is running, so a
+   page without JS — or a first frame grabbed before it runs — is never blank. */
+.rv { transition: opacity .7s var(--ease), transform .7s var(--ease); }
+[data-anim] .rv { opacity: 0; transform: translateY(22px); }
+[data-anim] .rv.in { opacity: 1; transform: none; }
 .rv-1 { transition-delay: .07s; }
 .rv-2 { transition-delay: .14s; }
 .rv-3 { transition-delay: .21s; }
@@ -840,7 +844,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
     animation-iteration-count: 1 !important;
     transition-duration: .001ms !important;
   }
-  .rv { opacity: 1 !important; transform: none !important; }
+  [data-anim] .rv { opacity: 1 !important; transform: none !important; }
   .stat::before { width: 46px !important; }
   .step__bar { width: 100% !important; }
   .ticker__track { animation: none !important; }
