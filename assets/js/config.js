@@ -10,8 +10,9 @@ window.EVENT_CONFIG = {
 
   /* ---- 1. EVENT DETAILS ------------------------------------------------ */
 
-  // Shown in the hero badge and the footer.
-  eventDate:   "",          // e.g. "Saturday, 14 February 2026"
+  // Shown in the hero vitals, the details card and the footer.
+  eventDate:   "31 October",          // e.g. "Saturday, 31 October 2026"
+  eventDay:    "",          // sub-line under the date on the details card
 
   // Short name used in the hero fact strip (keep it to a few words).
   venueShort:  "",          // e.g. "Gachibowli Stadium"

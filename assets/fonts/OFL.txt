@@ -2,8 +2,8 @@ The three typefaces bundled in this folder are each released by their authors
 under the SIL Open Font License, Version 1.1, which permits redistribution and
 embedding in a website.
 
-  Bebas Neue     — Copyright (c) Ryoichi Tsunekawa, Dharma Type
-  Source Sans 3  — Copyright (c) Adobe (https://github.com/adobe-fonts/source-sans)
+  Cinzel         — Copyright (c) Natanael Gama (https://github.com/NDISCOVER/Cinzel)
+  Archivo        — Copyright (c) Omnibus-Type (https://github.com/Omnibus-Type/Archivo)
   IBM Plex Mono  — Copyright (c) IBM Corp. (https://github.com/IBM/plex)
 
 The files here are Latin-subset WOFF2 builds served by Google Fonts.

@@ -1,13 +1,18 @@
-# Record Attempt — event website
+# ONE CITY. ONE STAGE. ONE RECORD.
 
-A single-page site for the SNK Dance Company · TYSUN mass dance event: a
-15-minute non-stop Tollywood/Bollywood routine performed by 4,000–5,000 school
-students in Hyderabad, staged as an Indian Book of Records attempt.
+A single-page cinematic site for the SNK Dance Company · TYSUN mass dance event:
+a 15-minute non-stop Tollywood routine performed by 5,000+ school students in
+Hyderabad on **31 October**, staged as an Indian Book of Records attempt.
 
 The page is written for the person who actually decides — a school principal or
-activity coordinator — so it leads with the spectacle and then answers the
-questions that decide participation: supervision, safety, timetable impact and
-transport.
+activity coordinator — so it opens on the spectacle and then answers the
+questions that decide participation: supervision, safety, timetable impact,
+transport and cost.
+
+**Art direction.** A film, not a web page. Near-black ground, premium metallic
+gold, warm white type, film grain, stage lighting and silhouettes. Gold is never
+a flat swatch — it is an eight-stop ramp with a specular highlight, because that
+is the difference between metal and yellow.
 
 ---
 
@@ -87,7 +92,12 @@ Three items on the page make factual claims. Please confirm each one:
    and so on) are **indicative timings I filled in** — the brief only gave the
    arrival window. The page says as much, but replace them with your real call
    sheet once it exists. They are in `index.html`, in the
-   `<section class="band runsheet">` block.
+   `<section class="band" id="timeline">` block.
+
+4. **The year on the date.** The brief said "31 October" without a year. The
+   page shows exactly that, and `eventDate` in the config is set to
+   `"31 October"`. 31 October 2026 falls on a Saturday. Set the full date in
+   the config once you confirm it.
 
 Other numbers on the page — 5,000+ students, 15 minutes, 7–10 days of training,
 four sub-stages — come straight from the brief.
@@ -105,7 +115,6 @@ Swap any of them for a real photograph by dropping a file into
 
 | File | Where it appears |
 |---|---|
-| `gallery-1.svg` … `gallery-4.svg` | The gallery grid |
 | `guest-1.svg` … `guest-3.svg` | Guest cards |
 | `og-cover.svg` | The preview card when the link is shared |
 | `mark.svg` | Logo in the header and footer |
@@ -130,41 +139,50 @@ assets/
   css/fonts.css             @font-face rules for the bundled fonts
   js/config.js              >>> the file you edit <<<
   js/main.js                animation, the ground plan, the form
-  fonts/                    Bebas Neue, Source Sans 3, IBM Plex Mono
+  fonts/                    Cinzel, Archivo, IBM Plex Mono
   images/                   artwork
 ```
 
 ### Design notes
 
-- **Colour** comes from a floodlit ground at dusk — deep plum-indigo, marigold
-  stage light, vermilion and peacock teal from festival textile. The palette
-  lives as CSS custom properties at the top of `style.css`; change it there and
-  it changes everywhere.
-- **Type** does three jobs: Bebas Neue is the poster voice for headlines,
-  Source Sans 3 carries the reading text, and IBM Plex Mono marks anything
-  operational — zone codes, timings, labels — so the run of show reads like the
-  call sheet it is.
-- **The safety section deliberately inverts to cream.** It is the one part of
-  the page aimed squarely at a cautious principal, and the tonal shift signals
-  a change of register.
-- **The ground plan is the signature element.** Hover or tab through the zones
-  to see each one's capacity and nearest safety points. The zone data is the
-  `ZONES` array in `main.js` — edit it to match the real ground map.
-- **The hero canvas** draws roughly a thousand dots standing in for students,
-  lighting up outward from the stage and pulsing in unison. It stops drawing
-  when scrolled out of view or when the tab is hidden.
+- **Colour** is the metal ramp: eight stops from `#3A2A0D` through to a
+  `#FFF9E4` specular, over a near-black that carries a faint violet bias. Pure
+  `#000` was rejected deliberately — it flattens the grain and kills every
+  shadow layered on it. All of it lives as CSS custom properties at the top of
+  `style.css`.
+- **Type** does three jobs. **Cinzel** is the Trajan-descended Roman capital
+  used on film posters — it carries the titles, set in caps with wide tracking
+  and nothing else. **Archivo** carries reading text and the big numerals.
+  **IBM Plex Mono** marks anything operational — zone codes, timings, labels —
+  so the run of show reads like the call sheet it is.
+- **The scale sequence is the signature.** A pinned frame where the crowd
+  multiplies from one silhouette to five thousand as you scroll, with the count
+  climbing beside it. It is the only honest way to put "5,000" on a screen:
+  make the reader watch it fill up.
+- **The silhouettes are drawn, not dotted.** Filled bodies with head, torso and
+  limbs, tall and narrow — stroked stick figures read as clip-art at any size,
+  which is the fastest way to make a premium page look amateur.
+- **The ground plan** is interactive: hover or tab the zones for capacity and
+  nearest safety points. The zone data is the `ZONES` array in `main.js` — edit
+  it to match the real ground map.
+- **Motion has a job or it is cut.** It either reveals scale (the crowd), marks
+  progress (the timeline spine), or shows state (zone selection). Both canvases
+  stop drawing when scrolled away or when the tab is hidden.
 
 ### Quality checks that pass
 
-- No JavaScript dependencies, no CDN calls, no third-party requests at runtime.
+- GSAP + ScrollTrigger drive the cinematic passages, loaded from cdnjs. **Every
+  one has a vanilla fallback**: if that CDN is blocked (school networks often
+  are), reveals, the timeline and the 1 → 5,000 scale sequence all still run.
+  Tested with GSAP present and absent.
 - All text meets WCAG AA contrast (4.5:1 body, 3:1 large) in both the dark and
   cream sections.
 - Full keyboard navigation with a skip link and visible focus rings.
 - `prefers-reduced-motion` is respected — animation stops and the final state
   renders immediately.
 - No horizontal scrolling at any width from 390px up.
-- Measured page weight is **143 KB** over the wire across 18 requests
-  (494 KB raw), fonts and artwork included — assuming your host serves
+- Measured page weight is **177 KB** over the wire across 16 requests
+  (419 KB raw), fonts, GSAP and artwork included — assuming your host serves
   gzip or brotli, which every mainstream static host does by default.
 
 ---

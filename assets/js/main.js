@@ -1,479 +1,673 @@
 /* ==========================================================================
-   TYSUN — record attempt landing page
-   No dependencies. No build step. Everything degrades to a readable page
-   if JavaScript is unavailable.
+   ONE CITY. ONE STAGE. ONE RECORD.
+   --------------------------------------------------------------------------
+   GSAP + ScrollTrigger drive the cinematic passages. Every one of them has a
+   vanilla fallback, so if the CDN is blocked (school networks often are) the
+   page still reveals, still counts, still works. Nothing here animates for
+   decoration: motion either reveals scale, marks progress, or shows state.
    ========================================================================== */
 (function () {
   'use strict';
 
-  var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var RM  = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var GS  = window.gsap;
+  var ST  = window.ScrollTrigger;
+  var HAS = !!(GS && ST);
+  if (HAS) GS.registerPlugin(ST);
+
+  // Weighted toward the mid-tones: a crowd under one key light is
+  // tonally close, not a spread of five different values.
+  var GOLD = ['#6B4F18', '#8A6620', '#8A6620', '#B08A36', '#B08A36', '#D4A94F', '#E8C87A'];
 
   /* ======================================================================
-     1. Apply config.js over the placeholder copy already in the HTML
+     Config — one file the client edits, applied over the HTML placeholders
      ====================================================================== */
 
   function applyConfig() {
     var c = window.EVENT_CONFIG || {};
-
-    // Derived links, built once so the markup stays free of logic.
-    var derived = {
-      venueCity: c.venueCity,
-      telLink:   c.phone ? 'tel:' + c.phone.replace(/[^\d+]/g, '') : '',
-      mailtoLink: c.email
-        ? 'mailto:' + c.email + '?subject=' + encodeURIComponent('School participation — record attempt')
-        : '',
-      phoneDisplay: c.phone,
-      emailDisplay: c.email,
-      paymentLink:  c.paymentLink,
-      upiLink: (c.upiId && c.price)
-        ? 'upi://pay?pa=' + encodeURIComponent(c.upiId) +
-          '&pn=' + encodeURIComponent(c.upiName || 'SNK Dance Company') +
-          '&cu=INR'
-        : (c.upiId ? 'upi://pay?pa=' + encodeURIComponent(c.upiId) +
-                     '&pn=' + encodeURIComponent(c.upiName || 'SNK Dance Company') + '&cu=INR' : '')
+    var d = {
+      telLink:    c.phone ? 'tel:' + c.phone.replace(/[^\d+]/g, '') : '',
+      mailtoLink: c.email ? 'mailto:' + c.email + '?subject=' +
+                  encodeURIComponent('School participation — 31 October record attempt') : '',
+      phoneDisplay: c.phone, emailDisplay: c.email, paymentLink: c.paymentLink,
+      upiLink: c.upiId ? 'upi://pay?pa=' + encodeURIComponent(c.upiId) +
+               '&pn=' + encodeURIComponent(c.upiName || 'SNK Dance Company') + '&cu=INR' : ''
     };
-
-    function value(key) {
-      if (derived[key] !== undefined && derived[key] !== null && derived[key] !== '') return derived[key];
-      if (c[key] !== undefined && c[key] !== null && c[key] !== '') return c[key];
+    function val(k) {
+      if (d[k]) return d[k];
+      if (c[k]) return c[k];
       return null;
     }
-
-    // Text slots
-    Array.prototype.forEach.call(document.querySelectorAll('[data-cfg]'), function (el) {
-      var v = value(el.getAttribute('data-cfg'));
+    document.querySelectorAll('[data-cfg]').forEach(function (el) {
+      var v = val(el.getAttribute('data-cfg'));
       if (v === null) return;
-      // Preserve a nested <small> (used in the hero fact strip).
       var small = el.querySelector('small');
       el.textContent = v;
       if (small) el.appendChild(small);
     });
-
-    // Href slots — if there is no real link, leave the button pointing at
-    // the contact section rather than showing a dead control.
-    Array.prototype.forEach.call(document.querySelectorAll('[data-cfg-href]'), function (el) {
-      var v = value(el.getAttribute('data-cfg-href'));
+    document.querySelectorAll('[data-cfg-href]').forEach(function (el) {
+      var v = val(el.getAttribute('data-cfg-href'));
       if (v === null) return;
       el.setAttribute('href', v);
-      if (/^https?:/i.test(v)) {
-        el.setAttribute('target', '_blank');
-        el.setAttribute('rel', 'noopener');
-      }
+      if (/^https?:/i.test(v)) { el.setAttribute('target', '_blank'); el.setAttribute('rel', 'noopener'); }
     });
-
-    // Hide the UPI button entirely when no UPI ID is configured.
     var upi = document.getElementById('upibtn');
     if (upi && !c.upiId) upi.hidden = true;
-
     var yr = document.getElementById('yr');
     if (yr) yr.textContent = new Date().getFullYear();
   }
 
   /* ======================================================================
-     2. Header — solid background once the hero is behind us
+     Film grain — generated once, tiled by CSS. Cheaper than an animated
+     canvas overlay and it survives on low-end phones.
+     ====================================================================== */
+
+  function grain() {
+    var s = 180, cv = document.createElement('canvas');
+    cv.width = cv.height = s;
+    var ctx = cv.getContext('2d');
+    var img = ctx.createImageData(s, s), px = img.data;
+    for (var i = 0; i < px.length; i += 4) {
+      var v = (Math.random() * 255) | 0;
+      px[i] = px[i + 1] = px[i + 2] = v;
+      px[i + 3] = 26;
+    }
+    ctx.putImageData(img, 0, 0);
+    document.documentElement.style.setProperty('--grain-src', 'url(' + cv.toDataURL('image/png') + ')');
+  }
+
+  /* ======================================================================
+     Header
      ====================================================================== */
 
   function header() {
-    var hdr = document.getElementById('hdr');
-    var nav = document.getElementById('nav');
-    var burger = document.getElementById('burger');
+    var hdr = document.getElementById('hdr'),
+        nav = document.getElementById('nav'),
+        bg  = document.getElementById('burger');
     if (!hdr) return;
-
-    var ticking = false;
+    var t = false;
     function onScroll() {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(function () {
-        hdr.classList.toggle('is-stuck', window.scrollY > 40);
-        ticking = false;
-      });
+      if (t) return;
+      t = true;
+      requestAnimationFrame(function () { hdr.classList.toggle('stuck', window.scrollY > 40); t = false; });
     }
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
-    if (!burger || !nav) return;
-
-    function setOpen(open) {
-      nav.classList.toggle('is-open', open);
-      burger.setAttribute('aria-expanded', String(open));
-      burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    if (!bg || !nav) return;
+    function open(o) {
+      nav.classList.toggle('open', o);
+      bg.setAttribute('aria-expanded', String(o));
+      bg.setAttribute('aria-label', o ? 'Close menu' : 'Open menu');
     }
-    burger.addEventListener('click', function () {
-      setOpen(burger.getAttribute('aria-expanded') !== 'true');
-    });
-    nav.addEventListener('click', function (e) {
-      if (e.target.closest('a')) setOpen(false);
-    });
+    bg.addEventListener('click', function () { open(bg.getAttribute('aria-expanded') !== 'true'); });
+    nav.addEventListener('click', function (e) { if (e.target.closest('a')) open(false); });
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true') {
-        setOpen(false);
-        burger.focus();
-      }
+      if (e.key === 'Escape' && bg.getAttribute('aria-expanded') === 'true') { open(false); bg.focus(); }
     });
   }
 
   /* ======================================================================
-     3. Scroll reveal + counters
+     1 · Hero — title card. Lines rise out of their own overflow, then the
+     specular band sweeps the metal once the type has landed.
      ====================================================================== */
 
-  function reveals() {
-    var items = document.querySelectorAll('.rv, .stat, .step, .ev');
-    if (!('IntersectionObserver' in window) || REDUCED.matches) {
-      Array.prototype.forEach.call(items, function (el) { el.classList.add('in'); });
-      Array.prototype.forEach.call(document.querySelectorAll('.count'), function (el) {
-        el.textContent = format(+el.dataset.to, el.dataset.fmt);
-      });
+  function heroIn() {
+    var lines = document.querySelectorAll('.hero h1 .l > span');
+    var rest  = ['.slate', '.hero__sub', '.hero__cta', '.vitals'].map(function (s) {
+      return document.querySelector(s);
+    }).filter(Boolean);
+
+    if (!HAS || RM.matches) {
+      lines.forEach(function (l) { l.style.transform = 'none'; });
       return;
     }
-
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('in');
-        var counters = entry.target.querySelectorAll('.count');
-        Array.prototype.forEach.call(counters, countUp);
-        io.unobserve(entry.target);
-      });
-    }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
-
-    Array.prototype.forEach.call(items, function (el) { io.observe(el); });
-  }
-
-  function format(n, fmt) {
-    return fmt === 'in' ? n.toLocaleString('en-IN') : String(n);
-  }
-
-  function countUp(el) {
-    if (el.dataset.done) return;
-    el.dataset.done = '1';
-    var to = +el.dataset.to || 0;
-    var fmt = el.dataset.fmt;
-    var dur = 1400;
-    var t0 = null;
-
-    function frame(t) {
-      if (t0 === null) t0 = t;
-      var p = Math.min((t - t0) / dur, 1);
-      // easeOutExpo — fast start, long settle, reads as a tally landing
-      var e = p === 1 ? 1 : 1 - Math.pow(2, -10 * p);
-      el.textContent = format(Math.round(to * e), fmt);
-      if (p < 1) requestAnimationFrame(frame);
-    }
-    requestAnimationFrame(frame);
+    var tl = GS.timeline({ defaults: { ease: 'expo.out' } });
+    tl.from(lines, { yPercent: 112, duration: 1.15, stagger: .11 })
+      .from(rest,  { y: 18, opacity: 0, duration: .8, stagger: .09 }, '-=.62');
   }
 
   /* ======================================================================
-     4. Timeline progress line — fills as you read the run of show
+     2 · Scale — the signature. A pinned frame where the crowd multiplies
+     from one silhouette to five thousand as you scrub through it. This is
+     the only honest way to show "5,000" on a screen: make the reader watch
+     it fill up.
      ====================================================================== */
 
-  function timeline() {
-    var tl = document.querySelector('.tl');
-    var bar = document.getElementById('tlprog');
-    if (!tl || !bar || REDUCED.matches) {
-      if (bar) bar.style.height = '100%';
-      return;
-    }
-    var ticking = false;
-    function update() {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(function () {
-        var r = tl.getBoundingClientRect();
-        var mid = window.innerHeight * 0.55;
-        var p = (mid - r.top) / r.height;
-        bar.style.height = Math.max(0, Math.min(1, p)) * 100 + '%';
-        ticking = false;
-      });
-    }
-    window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-    update();
-  }
-
-  /* ======================================================================
-     5. Ticker — duplicate the group so the loop is seamless
-     ====================================================================== */
-
-  function ticker() {
-    var track = document.getElementById('ticker');
-    if (!track) return;
-    var grp = track.firstElementChild;
-    if (grp) track.appendChild(grp.cloneNode(true));
-  }
-
-  /* ======================================================================
-     6. Formation ground plan — the signature element
-     ====================================================================== */
-
-  var ZONE_COLOURS = ['#FFB01F', '#FF3D5A', '#17C3B2', '#A874FF'];
-
-  var ZONES = [
-    { id: 'A1', name: 'Front left',   rows: '1–8',   cap: '420', near: 'First aid · Water point 1' },
-    { id: 'A2', name: 'Front centre', rows: '1–8',   cap: '480', near: 'Ambulance bay · Water point 2' },
-    { id: 'A3', name: 'Front right',  rows: '1–8',   cap: '420', near: 'First aid · Water point 3' },
-    { id: 'A4', name: 'Front wing',   rows: '1–8',   cap: '380', near: 'Exit route A · Washrooms' },
-    { id: 'B1', name: 'Mid left',     rows: '9–16',  cap: '440', near: 'Water point 4 · Exit route B' },
-    { id: 'B2', name: 'Mid centre',   rows: '9–16',  cap: '500', near: 'Sub-stage 2 · First aid' },
-    { id: 'B3', name: 'Mid right',    rows: '9–16',  cap: '440', near: 'Sub-stage 3 · Water point 5' },
-    { id: 'B4', name: 'Mid wing',     rows: '9–16',  cap: '380', near: 'Exit route C · Washrooms' },
-    { id: 'C1', name: 'Rear left',    rows: '17–24', cap: '400', near: 'Bus parking 1 · Water point 6' },
-    { id: 'C2', name: 'Rear centre',  rows: '17–24', cap: '460', near: 'Coordination point · First aid' },
-    { id: 'C3', name: 'Rear right',   rows: '17–24', cap: '400', near: 'Bus parking 2 · Water point 7' },
-    { id: 'C4', name: 'Rear wing',    rows: '17–24', cap: '360', near: 'Exit route D · Washrooms' }
+  var STEPS = [
+    { n: 1,    l: 'Student',  c: 'It starts with one.' },
+    { n: 30,   l: 'A class',  c: 'One class learns the routine.' },
+    { n: 250,  l: 'A school', c: 'One school fills its zone.' },
+    { n: 1200, l: 'Students', c: 'Four schools, four zones.' },
+    { n: 5000, l: 'Students', c: 'Every zone. One count. One take.' }
   ];
 
-  function formation() {
-    var host = document.getElementById('zones');
-    var card = document.getElementById('zonecard');
-    if (!host || !card) return;
+  function crowd() {
+    var cv = document.getElementById('crowd');
+    var pin = document.getElementById('scalePin');
+    var nEl = document.getElementById('scaleN');
+    var lEl = document.getElementById('scaleL');
+    var cEl = document.getElementById('scaleC');
+    if (!cv || !cv.getContext || !pin) return;
 
-    ZONES.forEach(function (z, i) {
-      var colour = ZONE_COLOURS[i % ZONE_COLOURS.length];
-      var b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'zone';
-      b.style.setProperty('--zc', colour);
-      b.setAttribute('aria-label', 'Zone ' + z.id + ', ' + z.name + ', about ' + z.cap + ' students');
+    var ctx = cv.getContext('2d'), W = 0, H = 0, people = [], shown = 0;
 
-      var dots = '';
-      for (var d = 0; d < 27; d++) dots += "<i></i>";
-
-      b.innerHTML =
-        '<span class="zone__id">' + z.id + '</span>' +
-        '<span class="zone__n">' + z.name + '</span>' +
-        '<span class="zone__dots" aria-hidden="true">' + dots + '</span>';
-
-      b.addEventListener('click', function () { select(i); });
-      b.addEventListener('mouseenter', function () { select(i); });
-      b.addEventListener('focus', function () { select(i); });
-      host.appendChild(b);
-    });
-
-    function select(i) {
-      var z = ZONES[i];
-      var colour = ZONE_COLOURS[i % ZONE_COLOURS.length];
-
-      Array.prototype.forEach.call(host.children, function (el, n) {
-        el.classList.toggle('is-on', n === i);
-      });
-
-      card.style.setProperty('--zc', colour);
-      card.innerHTML =
-        '<div class="zonecard__hd">' +
-          '<span class="zonecard__chip">' + z.id + '</span>' +
-          '<span><h3>' + z.name + '</h3>' +
-          '<span class="zonecard__sub">Rows ' + z.rows + ' · facing main stage</span></span>' +
-        '</div>' +
-        '<p>Schools allocated to this zone stand together behind their own flag marker. ' +
-        'Teachers stay inside the block, and a trainer is assigned per row group so the ' +
-        'counts reach the back rows.</p>' +
-        '<dl>' +
-          '<dt>Approx. capacity</dt><dt>Nearest points</dt>' +
-          '<dd>' + z.cap + '</dd>' +
-          '<dd style="font-family:var(--body);font-size:.88rem;letter-spacing:0;line-height:1.5;color:var(--fg-dim)">' + z.near + '</dd>' +
-        '</dl>';
-    }
-
-    select(1); // open on the front-centre zone
-  }
-
-  /* ======================================================================
-     7. Hero formation field — ~1,100 dots standing in for the ground
-     ====================================================================== */
-
-  function field() {
-    var cv = document.getElementById('field');
-    if (!cv || !cv.getContext) return;
-    var ctx = cv.getContext('2d');
-
-    var dots = [];
-    var w = 0, h = 0, dpr = 1;
-    var t0 = null;
-    var raf = null;
-    var visible = true;
-
+    // Build the full 5,000 once; the scroll only changes how many are drawn.
     function build() {
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
-      w = cv.clientWidth;
-      h = cv.clientHeight;
-      cv.width = Math.round(w * dpr);
-      cv.height = Math.round(h * dpr);
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = cv.clientWidth; H = cv.clientHeight;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      // Grid sized so the field reads as a crowd, not a pattern, at any width.
-      var gap = w < 640 ? 20 : w < 1100 ? 22 : 25;
-      var cols = Math.ceil(w / gap) + 2;
-      var rows = Math.ceil(h / gap) + 2;
+      people = [];
+      var horizon = H * 0.46, floor = H * 1.04;
+      for (var i = 0; i < 5000; i++) {
+        // Bias toward the viewer so the near rows crowd and the far rows thin.
+        var t = Math.pow(Math.random(), 0.55);
+        var y = horizon + (floor - horizon) * t;
+        var scale = 0.16 + t * 0.95;
+        people.push({
+          x: Math.random() * (W + 80) - 40,
+          y: y,
+          s: scale,
+          // Raised arms on roughly a third of them — it reads as dance, not a queue.
+          up: Math.random() < 0.34,
+          lean: (Math.random() - 0.5) * 0.5,
+          c: GOLD[(Math.random() * GOLD.length) | 0],
+          a: 0.14 + t * 0.6
+        });
+      }
+      // Far figures first so near ones overlap them correctly.
+      people.sort(function (a, b) { return a.y - b.y; });
+    }
 
-      dots = [];
-      for (var y = 0; y < rows; y++) {
-        for (var x = 0; x < cols; x++) {
-          // Stagger alternate rows — people don't stand in a perfect lattice.
-          var px = x * gap + (y % 2 ? gap / 2 : 0) - gap;
-          var py = y * gap - gap;
+    // A filled silhouette with real mass — head, torso, limbs. Stroked
+    // stick figures read as clip-art pictograms at any size, which is the
+    // fastest way to make a premium page look amateur.
+    function figure(p) {
+      var h = 34 * p.s, w = h * 0.185, x = p.x, y = p.y;
+      ctx.save();
+      ctx.translate(x, y);
+      if (p.lean) ctx.rotate(p.lean * 0.07);
+      ctx.globalAlpha = p.a;
+      ctx.fillStyle = p.c;
+      ctx.strokeStyle = p.c;
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
 
-          // Each dot belongs to a school block; blocks are irregular so the
-          // colour clusters read as separate schools, not as a checkerboard.
-          var block = Math.floor(x / (4 + (y % 3))) + Math.floor(y / 5) * 3;
-          var colour = ZONE_COLOURS[Math.abs(block) % ZONE_COLOURS.length];
+      // Legs — thicker than the arms, as a body is
+      ctx.lineWidth = Math.max(h * 0.085, .8);
+      ctx.beginPath();
+      ctx.moveTo(-w * 0.22, -h * 0.46); ctx.lineTo(-w * 0.70, -h * 0.02);
+      ctx.moveTo( w * 0.22, -h * 0.46); ctx.lineTo( w * 0.70, -h * 0.02);
+      ctx.stroke();
 
-          // Distance from the stage (top centre) drives the wave and the fade.
-          var dx = (px - w / 2) / w;
-          var dy = py / h;
-          var dist = Math.sqrt(dx * dx * 1.6 + dy * dy);
+      // Torso — a filled taper from shoulders to hips is what gives it mass
+      ctx.beginPath();
+      ctx.moveTo(-w * 0.62, -h * 0.76);
+      ctx.lineTo( w * 0.62, -h * 0.76);
+      ctx.lineTo( w * 0.36, -h * 0.42);
+      ctx.lineTo(-w * 0.36, -h * 0.42);
+      ctx.closePath();
+      ctx.fill();
 
-          dots.push({
-            x: px, y: py,
-            c: colour,
-            dist: dist,
-            // Depth cue: the far rows are smaller and dimmer.
-            r: 1.15 + (1 - dy) * 1.15,
-            a: 0.16 + (1 - dy) * 0.34,
-            seed: Math.random() * 6.283
-          });
+      // Arms
+      ctx.lineWidth = Math.max(h * 0.068, .7);
+      ctx.beginPath();
+      if (p.up) {
+        ctx.moveTo(-w * 0.52, -h * 0.73); ctx.lineTo(-w * 1.05, -h * 1.12);
+        ctx.moveTo( w * 0.52, -h * 0.73); ctx.lineTo( w * 1.05, -h * 1.12);
+      } else {
+        ctx.moveTo(-w * 0.52, -h * 0.72); ctx.lineTo(-w * 1.35, -h * 0.52);
+        ctx.moveTo( w * 0.52, -h * 0.72); ctx.lineTo( w * 1.35, -h * 0.52);
+      }
+      ctx.stroke();
+
+      // Head last, so it sits over the shoulders
+      ctx.beginPath();
+      ctx.arc(0, -h * 0.87, h * 0.105, 0, 6.2832);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function draw(count) {
+      ctx.clearRect(0, 0, W, H);
+      // Key light on the ground behind them.
+      var g = ctx.createRadialGradient(W / 2, H * 0.28, 0, W / 2, H * 0.28, Math.max(W, H) * 0.72);
+      g.addColorStop(0, 'rgba(212,169,79,.14)');
+      g.addColorStop(1, 'rgba(212,169,79,0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, W, H);
+
+      ctx.save();
+      var scrim = ctx.createRadialGradient(W / 2, H * 0.33, 0, W / 2, H * 0.33, Math.max(W, H) * 0.42);
+      scrim.addColorStop(0, 'rgba(7,6,10,.80)');
+      scrim.addColorStop(1, 'rgba(7,6,10,0)');
+      ctx.fillStyle = scrim;
+      ctx.fillRect(0, 0, W, H);
+      ctx.restore();
+
+      var step = count <= 1 ? 1 : Math.max(1, Math.floor(people.length / count));
+      var drawn = 0;
+      for (var i = 0; i < people.length && drawn < count; i += step) {
+        // One figure, centre stage, when the count is 1.
+        if (count === 1) {
+          figure({ x: W / 2, y: H * 0.88, s: 3.4, up: true, lean: 0, c: '#E8C87A', a: .95 });
+          drawn = 1; break;
         }
-      }
-    }
-
-    function draw(now) {
-      if (t0 === null) t0 = now;
-      var el = (now - t0) / 1000;
-
-      ctx.clearRect(0, 0, w, h);
-
-      for (var i = 0; i < dots.length; i++) {
-        var d = dots[i];
-
-        // Entrance: blocks light up outward from the stage.
-        var app = Math.min(Math.max((el - d.dist * 1.15) / 0.9, 0), 1);
-        if (app <= 0) continue;
-
-        // A slow pulse travelling from the stage outward — the ground
-        // breathing in unison, which is what 5,000 people in time look like.
-        var wave = Math.sin(el * 1.5 - d.dist * 5.5 + d.seed * 0.25);
-        var lift = 0.5 + 0.5 * wave;
-
-        ctx.globalAlpha = d.a * app * (0.55 + lift * 0.65);
-        ctx.fillStyle = d.c;
-        ctx.beginPath();
-        ctx.arc(d.x, d.y - lift * 1.6, d.r * (0.82 + lift * 0.3), 0, 6.2832);
-        ctx.fill();
-      }
-      ctx.globalAlpha = 1;
-
-      raf = requestAnimationFrame(draw);
-    }
-
-    function still() {
-      ctx.clearRect(0, 0, w, h);
-      for (var i = 0; i < dots.length; i++) {
-        var d = dots[i];
-        ctx.globalAlpha = d.a;
-        ctx.fillStyle = d.c;
-        ctx.beginPath();
-        ctx.arc(d.x, d.y, d.r, 0, 6.2832);
-        ctx.fill();
+        figure(people[i]); drawn++;
       }
       ctx.globalAlpha = 1;
     }
 
-    function start() {
-      if (raf !== null) return;
-      t0 = null;
-      raf = requestAnimationFrame(draw);
-    }
-    function stop() {
-      if (raf === null) return;
-      cancelAnimationFrame(raf);
-      raf = null;
+    function fmt(n) { return n.toLocaleString('en-IN'); }
+
+    function render(p) {                                 // p = 0..1 scroll progress
+      var seg = Math.min(Math.floor(p * STEPS.length), STEPS.length - 1);
+      var prev = seg === 0 ? { n: 1 } : STEPS[seg - 1];
+      var local = (p * STEPS.length) - seg;
+      var target = STEPS[seg];
+      var n = Math.round(prev.n + (target.n - prev.n) * Math.min(local * 1.35, 1));
+      n = Math.max(1, Math.min(n, 5000));
+
+      if (n !== shown) { shown = n; draw(n); nEl.textContent = fmt(n); }
+      if (lEl.textContent !== target.l) lEl.textContent = target.l;
+      if (cEl.textContent !== target.c) cEl.textContent = target.c;
     }
 
-    function init() {
-      build();
-      if (REDUCED.matches) { stop(); still(); return; }
-      start();
+    build();
+
+    if (RM.matches) {                                    // final state, no scrubbing
+      draw(5000); nEl.textContent = '5,000'; lEl.textContent = 'Students';
+      cEl.textContent = STEPS[STEPS.length - 1].c;
+      return;
     }
 
-    // Don't burn frames on a hero that has scrolled away.
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (entries) {
-        visible = entries[0].isIntersecting;
-        if (REDUCED.matches) return;
-        visible ? start() : stop();
-      }, { threshold: 0 }).observe(cv);
+    if (HAS) {
+      ST.create({
+        trigger: '.scale', start: 'top top', end: '+=320%',
+        pin: pin, scrub: 0.6, invalidateOnRefresh: true,
+        onUpdate: function (self) { render(self.progress); },
+        onRefreshInit: build
+      });
+      // Give the section the scroll length the pin needs.
+      document.querySelector('.scale').style.height = '420svh';
+    } else {
+      // No GSAP: same story, driven by the section's own scroll position.
+      document.querySelector('.scale').style.height = '420svh';
+      pin.style.position = 'sticky'; pin.style.top = '0';
+      var sec = document.querySelector('.scale'), tick = false;
+      function upd() {
+        if (tick) return; tick = true;
+        requestAnimationFrame(function () {
+          var r = sec.getBoundingClientRect();
+          var p = -r.top / Math.max(1, r.height - window.innerHeight);
+          render(Math.max(0, Math.min(1, p))); tick = false;
+        });
+      }
+      window.addEventListener('scroll', upd, { passive: true });
+      upd();
     }
-    document.addEventListener('visibilitychange', function () {
-      if (REDUCED.matches) return;
-      (document.hidden || !visible) ? stop() : start();
-    });
 
     var rt;
     window.addEventListener('resize', function () {
       clearTimeout(rt);
-      rt = setTimeout(function () {
-        var was = raf !== null;
-        stop();
-        build();
-        if (REDUCED.matches) still();
-        else if (was || visible) start();
-      }, 180);
+      rt = setTimeout(function () { build(); draw(shown || 1); if (HAS) ST.refresh(); }, 200);
     });
-
-    REDUCED.addEventListener
-      ? REDUCED.addEventListener('change', init)
-      : REDUCED.addListener && REDUCED.addListener(init);
-
-    init();
   }
 
   /* ======================================================================
-     8. Enquiry form — hands off to WhatsApp, falls back to email
+     1b · Hero stage lighting — beams and haze behind the title card
+     ====================================================================== */
+
+  function stage() {
+    var cv = document.getElementById('stage');
+    if (!cv || !cv.getContext) return;
+    var ctx = cv.getContext('2d'), W, H, raf = null, vis = true, t0 = null;
+
+    // Angle is what sells a stage light. Each shaft leaves a point above the
+    // frame and lands somewhere else along the floor.
+    var beams = [
+      { x: .46, land: .06, w: .030, c: '212,169,79',  ph: 0.0, k: 1.00 },
+      { x: .50, land: .27, w: .022, c: '246,227,172', ph: 1.7, k: 0.80 },
+      { x: .53, land: .52, w: .034, c: '232,200,122', ph: 3.1, k: 0.95 },
+      { x: .49, land: .78, w: .026, c: '212,169,79',  ph: 4.6, k: 0.85 },
+      { x: .52, land: .98, w: .020, c: '176,138,54',  ph: 5.4, k: 0.70 }
+    ];
+
+    var heroRow = [];
+    function buildRow() {
+      heroRow = [];
+      var n = Math.max(22, Math.round(W / 30));
+      for (var i = 0; i < n; i++) {
+        var t = Math.pow(Math.random(), 0.7);
+        heroRow.push({
+          // Overlap, rather than a evenly spaced rank of clip-art.
+          x: (i + (Math.random() - .5) * 1.5) * (W / n) + W / (n * 2),
+          y: H * (0.865 + t * 0.115),    // the nearest are cropped by the frame
+          s: 0.95 + t * 2.1,
+          up: Math.random() < 0.38,
+          ph: Math.random() * 6.283,
+          a: 0.62 + t * 0.36
+        });
+      }
+      heroRow.sort(function (a, b) { return a.s - b.s; });
+    }
+
+    // Same proportions as the scale silhouettes, drawn as one flat mass.
+    function heroFigure(p, bob) {
+      var h = 36 * p.s, w = h * 0.185;
+      ctx.save();
+      ctx.translate(p.x, p.y + bob);
+      ctx.globalAlpha = p.a;
+      ctx.fillStyle = '#000105';
+      ctx.strokeStyle = '#000105';
+      ctx.lineJoin = ctx.lineCap = 'round';
+      ctx.lineWidth = Math.max(h * 0.085, .8);
+      ctx.beginPath();
+      ctx.moveTo(-w * .22, -h * .46); ctx.lineTo(-w * .70, -h * .02);
+      ctx.moveTo( w * .22, -h * .46); ctx.lineTo( w * .70, -h * .02);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(-w * .62, -h * .76); ctx.lineTo(w * .62, -h * .76);
+      ctx.lineTo(w * .36, -h * .42); ctx.lineTo(-w * .36, -h * .42);
+      ctx.closePath(); ctx.fill();
+      ctx.lineWidth = Math.max(h * 0.068, .7);
+      ctx.beginPath();
+      if (p.up) {
+        ctx.moveTo(-w * .52, -h * .73); ctx.lineTo(-w * 1.05, -h * 1.12);
+        ctx.moveTo( w * .52, -h * .73); ctx.lineTo( w * 1.05, -h * 1.12);
+      } else {
+        ctx.moveTo(-w * .52, -h * .72); ctx.lineTo(-w * 1.35, -h * .52);
+        ctx.moveTo( w * .52, -h * .72); ctx.lineTo( w * 1.35, -h * .52);
+      }
+      ctx.stroke();
+      ctx.beginPath(); ctx.arc(0, -h * .87, h * .105, 0, 6.2832); ctx.fill();
+      ctx.restore();
+    }
+
+    function size() {
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = cv.clientWidth; H = cv.clientHeight;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      heroRow = [];
+    }
+
+    function paint(el) {
+      ctx.clearRect(0, 0, W, H);
+
+      // Haze only near the source. Spread across the whole frame it stops
+      // being atmosphere and just turns the blacks brown.
+      var haze = ctx.createRadialGradient(W * .5, -H * .08, 0, W * .5, -H * .08, H * .62);
+      haze.addColorStop(0, 'rgba(212,169,79,.16)');
+      haze.addColorStop(.6, 'rgba(212,169,79,.035)');
+      haze.addColorStop(1, 'rgba(212,169,79,0)');
+      ctx.fillStyle = haze;
+      ctx.fillRect(0, 0, W, H);
+
+      var canBlur = 'filter' in ctx;
+      if (canBlur) ctx.filter = 'blur(' + Math.round(Math.max(W, H) * 0.011) + 'px)';
+      ctx.globalCompositeOperation = 'lighter';
+
+      for (var i = 0; i < beams.length; i++) {
+        var b = beams[i];
+        var sway = Math.sin(el * 0.22 + b.ph) * W * 0.035;
+        var ox = W * b.x, oy = -H * 0.12;
+        var lx = W * b.land + sway;            // where it lands on the floor
+        var src = W * b.w * 0.5;
+        var foot = W * b.w * 2.3;
+        var peak = (0.40 + 0.16 * (0.5 + 0.5 * Math.sin(el * 0.36 + b.ph))) * b.k * (canBlur ? 1 : .5);
+
+        var g = ctx.createLinearGradient(ox, oy, lx, H);
+        g.addColorStop(0,   'rgba(' + b.c + ',' + peak.toFixed(3) + ')');
+        g.addColorStop(.22, 'rgba(' + b.c + ',' + (peak * .52).toFixed(3) + ')');
+        g.addColorStop(.60, 'rgba(' + b.c + ',' + (peak * .17).toFixed(3) + ')');
+        g.addColorStop(1,   'rgba(' + b.c + ',0)');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.moveTo(ox - src, oy);
+        ctx.lineTo(ox + src, oy);
+        ctx.lineTo(lx + foot, H);
+        ctx.lineTo(lx - foot, H);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      if (canBlur) ctx.filter = 'none';
+      ctx.globalCompositeOperation = 'source-over';
+
+      // A rank of silhouettes along the foot of the frame — the crowd is the
+      // subject of this page, so it belongs in the opening image.
+      if (!heroRow.length) buildRow();
+      for (var k = 0; k < heroRow.length; k++) {
+        var f = heroRow[k];
+        heroFigure(f, Math.sin(el * 1.25 + f.ph) * (2.0 * f.s));
+      }
+    }
+
+    function loop(now) {
+      if (t0 === null) t0 = now;
+      paint((now - t0) / 1000);
+      raf = requestAnimationFrame(loop);
+    }
+    function start() { if (raf === null) { t0 = null; raf = requestAnimationFrame(loop); } }
+    function stop()  { if (raf !== null) { cancelAnimationFrame(raf); raf = null; } }
+
+    size();
+    if (RM.matches) { paint(0); }
+    else { start(); }
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (e) {
+        vis = e[0].isIntersecting;
+        if (RM.matches) return;
+        vis ? start() : stop();
+      }, { threshold: 0 }).observe(cv);
+    }
+    document.addEventListener('visibilitychange', function () {
+      if (RM.matches) return;
+      (document.hidden || !vis) ? stop() : start();
+    });
+    var rt;
+    window.addEventListener('resize', function () {
+      clearTimeout(rt);
+      rt = setTimeout(function () { size(); if (RM.matches) paint(0); }, 200);
+    });
+  }
+
+  /* ======================================================================
+     Reveals, stage bars, timeline spine
+     ====================================================================== */
+
+  function reveals() {
+    var items = document.querySelectorAll('.rv');
+
+    // Safety net. A .rv element sits at opacity 0 until something reveals it,
+    // so a missed observer callback is not a lost animation — it is lost
+    // content. This sweep force-reveals anything at or above the fold on
+    // scroll and on load, whichever path is driving the nice staggered
+    // version, and costs nothing once everything is shown.
+    var pending = Array.prototype.slice.call(items);
+    function sweep() {
+      if (!pending.length) return;
+      var limit = window.innerHeight * 0.96;
+      pending = pending.filter(function (el) {
+        if (el.classList.contains('in')) return false;
+        if (el.getBoundingClientRect().top > limit) return true;
+        el.classList.add('in');
+        return false;
+      });
+    }
+    var swept = false;
+    window.addEventListener('scroll', function () {
+      if (swept) return;
+      swept = true;
+      requestAnimationFrame(function () { sweep(); swept = false; });
+    }, { passive: true });
+    window.addEventListener('resize', sweep);
+    window.addEventListener('load', sweep);
+    setTimeout(sweep, 400);
+
+    var bars  = document.querySelectorAll('.stg');
+    var evs   = document.querySelectorAll('.ev');
+
+    if (RM.matches) {
+      items.forEach(function (el) { el.classList.add('in'); });
+      evs.forEach(function (el) { el.classList.add('lit'); });
+      return;
+    }
+
+    if (HAS) {
+      items.forEach(function (el) {
+        ST.create({
+          trigger: el, start: 'top 88%', once: true,
+          onEnter: function () { el.classList.add('in'); }
+        });
+      });
+      bars.forEach(function (el, i) {
+        var bar = el.querySelector('.stg__bar');
+        if (!bar) return;
+        ST.create({
+          trigger: el, start: 'top 82%', once: true,
+          onEnter: function () {
+            GS.to(bar, { width: '100%', duration: 1.1, ease: 'expo.out', delay: i * 0.09 });
+          }
+        });
+      });
+      evs.forEach(function (el) {
+        ST.create({ trigger: el, start: 'top 78%', end: 'bottom 40%',
+          onToggle: function (s) { el.classList.toggle('lit', s.isActive); } });
+      });
+      var fill = document.getElementById('tlFill'), tl = document.getElementById('tl');
+      if (fill && tl) {
+        ST.create({ trigger: tl, start: 'top 62%', end: 'bottom 72%', scrub: .4,
+          onUpdate: function (s) { fill.style.height = (s.progress * 100) + '%'; } });
+      }
+      return;
+    }
+
+    // ---- Fallback: IntersectionObserver + rAF, same choreography ----------
+    if (!('IntersectionObserver' in window)) {
+      items.forEach(function (el) { el.classList.add('in'); });
+      evs.forEach(function (el) { el.classList.add('lit'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('in');
+        var b = e.target.querySelector('.stg__bar');
+        if (b) b.style.width = '100%';
+        io.unobserve(e.target);
+      });
+    }, { threshold: .15, rootMargin: '0px 0px -8% 0px' });
+    items.forEach(function (el) { io.observe(el); });
+    bars.forEach(function (el) { io.observe(el); });
+
+    var lit = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { e.target.classList.toggle('lit', e.isIntersecting); });
+    }, { threshold: .35 });
+    evs.forEach(function (el) { lit.observe(el); });
+
+    var fill2 = document.getElementById('tlFill'), tl2 = document.getElementById('tl'), tk = false;
+    if (fill2 && tl2) {
+      window.addEventListener('scroll', function () {
+        if (tk) return; tk = true;
+        requestAnimationFrame(function () {
+          var r = tl2.getBoundingClientRect();
+          var p = (window.innerHeight * .58 - r.top) / r.height;
+          fill2.style.height = Math.max(0, Math.min(1, p)) * 100 + '%';
+          tk = false;
+        });
+      }, { passive: true });
+    }
+  }
+
+  /* ======================================================================
+     6 · Venue map
+     ====================================================================== */
+
+  var ZONES = [
+    { id: 'A1', n: 'Front left',   rows: '1–8',   cap: 420, near: 'First aid · Water point 1' },
+    { id: 'A2', n: 'Front centre', rows: '1–8',   cap: 480, near: 'Ambulance bay · Water point 2' },
+    { id: 'A3', n: 'Front right',  rows: '1–8',   cap: 420, near: 'First aid · Water point 3' },
+    { id: 'A4', n: 'Front wing',   rows: '1–8',   cap: 380, near: 'Exit route A · Washrooms' },
+    { id: 'B1', n: 'Mid left',     rows: '9–16',  cap: 440, near: 'Water point 4 · Exit route B' },
+    { id: 'B2', n: 'Mid centre',   rows: '9–16',  cap: 500, near: 'Sub-stage 2 · First aid' },
+    { id: 'B3', n: 'Mid right',    rows: '9–16',  cap: 440, near: 'Sub-stage 3 · Water point 5' },
+    { id: 'B4', n: 'Mid wing',     rows: '9–16',  cap: 380, near: 'Exit route C · Washrooms' },
+    { id: 'C1', n: 'Rear left',    rows: '17–24', cap: 400, near: 'Bus parking 1 · Water point 6' },
+    { id: 'C2', n: 'Rear centre',  rows: '17–24', cap: 460, near: 'Coordination point · First aid' },
+    { id: 'C3', n: 'Rear right',   rows: '17–24', cap: 400, near: 'Bus parking 2 · Water point 7' },
+    { id: 'C4', n: 'Rear wing',    rows: '17–24', cap: 360, near: 'Exit route D · Washrooms' }
+  ];
+
+  function venue() {
+    var host = document.getElementById('zones'), card = document.getElementById('zinfo');
+    if (!host || !card) return;
+
+    ZONES.forEach(function (z, i) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'zone';
+      b.setAttribute('aria-label', 'Zone ' + z.id + ', ' + z.n + ', about ' + z.cap + ' students');
+      var dots = '';
+      for (var d = 0; d < 27; d++) dots += '<i></i>';
+      b.innerHTML = '<b>' + z.id + '</b><span>' + z.n + '</span>' +
+                    '<span class="dots" aria-hidden="true">' + dots + '</span>';
+      ['click', 'mouseenter', 'focus'].forEach(function (ev) {
+        b.addEventListener(ev, function () { pick(i); });
+      });
+      host.appendChild(b);
+    });
+
+    function pick(i) {
+      var z = ZONES[i];
+      Array.prototype.forEach.call(host.children, function (el, n) { el.classList.toggle('on', n === i); });
+      card.innerHTML =
+        '<div class="zinfo__h"><span class="zinfo__chip">' + z.id + '</span>' +
+        '<span><h3>' + z.n + '</h3><span class="zinfo__s">Rows ' + z.rows + ' · facing main stage</span></span></div>' +
+        '<p>Schools in this zone stand together behind their own flag marker. Teachers stay inside ' +
+        'the block, and a trainer is assigned per row group so the counts reach the back rows.</p>' +
+        '<dl><dt>Approx. capacity</dt><dt>Nearest points</dt>' +
+        '<dd class="big">' + z.cap + '</dd><dd>' + z.near + '</dd></dl>';
+    }
+    pick(1);
+  }
+
+  /* ======================================================================
+     12 · Enquiry form — WhatsApp handoff, email fallback
      ====================================================================== */
 
   function form() {
     var f = document.getElementById('regform');
     if (!f) return;
-
     f.addEventListener('submit', function (e) {
       e.preventDefault();
-
       if (!f.reportValidity()) return;
-
       var c = window.EVENT_CONFIG || {};
-      var get = function (n) { return (f.elements[n] && f.elements[n].value || '').trim(); };
-
-      var lines = [
-        'School participation enquiry — record attempt',
-        '',
-        'School: ' + get('school'),
-        'Contact: ' + get('person'),
-        'Phone: ' + get('phone'),
-        'Email: ' + (get('email') || '—'),
-        'Approx. students: ' + get('count'),
-        'Area: ' + (get('area') || '—'),
-        '',
-        'Notes: ' + (get('note') || '—')
-      ];
-      var body = lines.join('\n');
+      var g = function (n) { return (f.elements[n] && f.elements[n].value || '').trim(); };
+      var body = [
+        'School participation — 31 October record attempt', '',
+        'School: ' + g('school'),
+        'Contact: ' + g('person'),
+        'Phone: ' + g('phone'),
+        'Email: ' + (g('email') || '—'),
+        'Approx. students: ' + g('count'),
+        'Area: ' + (g('area') || '—'), '',
+        'Notes: ' + (g('note') || '—')
+      ].join('\n');
 
       if (c.whatsapp) {
-        window.open(
-          'https://wa.me/' + c.whatsapp.replace(/\D/g, '') + '?text=' + encodeURIComponent(body),
-          '_blank',
-          'noopener'
-        );
+        window.open('https://wa.me/' + c.whatsapp.replace(/\D/g, '') + '?text=' +
+                    encodeURIComponent(body), '_blank', 'noopener');
       } else if (c.email) {
-        window.location.href =
-          'mailto:' + c.email +
-          '?subject=' + encodeURIComponent('School participation enquiry') +
-          '&body=' + encodeURIComponent(body);
+        window.location.href = 'mailto:' + c.email + '?subject=' +
+          encodeURIComponent('School participation enquiry') + '&body=' + encodeURIComponent(body);
       } else {
-        // Nothing configured yet — say so plainly rather than failing silently.
-        alert(
-          'The coordinator contact has not been added to this site yet.\n\n' +
-          'Add a WhatsApp number or an email address in assets/js/config.js ' +
-          'to make this form send.'
-        );
+        alert('The coordinator contact has not been added to this site yet.\n\n' +
+              'Add a WhatsApp number or an email address in assets/js/config.js to make this form send.');
       }
     });
   }
@@ -481,14 +675,16 @@
   /* ====================================================================== */
 
   function boot() {
+    grain();
     applyConfig();
     header();
-    ticker();
+    stage();
+    heroIn();
+    crowd();
     reveals();
-    timeline();
-    formation();
-    field();
+    venue();
     form();
+    if (HAS) ST.refresh();
   }
 
   document.readyState === 'loading'
