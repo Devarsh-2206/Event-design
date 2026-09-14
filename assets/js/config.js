@@ -59,5 +59,23 @@ window.EVENT_CONFIG = {
   // place until an appearance is confirmed in writing. Only remove a tag once
   // you have that confirmation.
   guest1Name:  "",          // celebrity choreographer
-  guest2Name:  ""           // chief guest
+  guest2Name:  "",          // chief guest
+
+  // Guest photographs.
+  //
+  // These are real, identifiable people. Before putting a photograph here you
+  // need TWO things, and neither is optional:
+  //   1. A licence for the image. Press and agency photos are copyrighted;
+  //      pulling one off a search result is an infringement.
+  //   2. Written permission from the person (or their office/manager) to use
+  //      their likeness to promote this event.
+  // Until an appearance is confirmed in writing, leave the "Invited · to be
+  // confirmed" tag in index.html in place. A photo of a public figure on a
+  // page that asks schools for money reads as a confirmed endorsement.
+  //
+  // Drop the files into assets/images/ and reference them here.
+  photos: {
+    guest1: "",            // e.g. "assets/images/shekar-master.jpg"
+    guest2: ""             // e.g. "assets/images/malla-reddy.jpg"
+  }
 };
