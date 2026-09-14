@@ -9,10 +9,12 @@ activity coordinator — so it opens on the spectacle and then answers the
 questions that decide participation: supervision, safety, timetable impact,
 transport and cost.
 
-**Art direction.** A film, not a web page. Near-black ground, premium metallic
-gold, warm white type, film grain, stage lighting and silhouettes. Gold is never
-a flat swatch — it is an eight-stop ramp with a specular highlight, because that
-is the difference between metal and yellow.
+**Identity: copper and its own patina.** Copper oxidises to exactly the dusty
+grey-green used across this site. One material at two ages — molten copper is
+the live moment (the attempt, the count, the call to act), patina is what
+endures (structure, labels, the record itself). For an event whose whole point
+is that a moment becomes history, the palette is the story rather than
+decoration.
 
 ---
 
@@ -139,22 +141,30 @@ assets/
   css/fonts.css             @font-face rules for the bundled fonts
   js/config.js              >>> the file you edit <<<
   js/main.js                animation, the ground plan, the form
-  fonts/                    Cinzel, Archivo, IBM Plex Mono
+  fonts/                    Fraunces, Archivo, IBM Plex Mono
   images/                   artwork
 ```
 
 ### Design notes
 
-- **Colour** is the metal ramp: eight stops from `#3A2A0D` through to a
-  `#FFF9E4` specular, over a near-black that carries a faint violet bias. Pure
-  `#000` was rejected deliberately — it flattens the grain and kills every
-  shadow layered on it. All of it lives as CSS custom properties at the top of
-  `style.css`.
-- **Type** does three jobs. **Cinzel** is the Trajan-descended Roman capital
-  used on film posters — it carries the titles, set in caps with wide tracking
-  and nothing else. **Archivo** carries reading text and the big numerals.
-  **IBM Plex Mono** marks anything operational — zone codes, timings, labels —
-  so the run of show reads like the call sheet it is.
+- **Colour runs 60 / 30 / 10 by role.** 60% midnight aubergine `#100C16` —
+  reads near-black, shows its plum undertone only against the patina, and is
+  never pure `#000`. 30% smoked patina (`#879187`, with `#B5B9AE` and
+  `#59635C`) carries secondary type *and* the panel surfaces, diagrams and
+  rules, so the family is structural rather than only a text colour. 10%
+  molten copper (`#D8753D`, `#F09A5B`, `#9E4829`) appears only where something
+  is live or must be acted on: the primary CTA, the active nav item, the
+  record indicator, key figures. All of it lives as CSS custom properties at
+  the top of `style.css`.
+- **Two rules fall out of the contrast maths.** Copper buttons take *ink* text,
+  never white — white on copper is 3.22:1 and fails. And `#59635C` is for rules
+  and borders only, never text, at 3.10:1.
+- **Type** does three jobs. **Fraunces** is a contemporary editorial serif set
+  in mixed case with tight negative tracking — chosen over a Roman capital face
+  so headings are not all-caps and the page does not read as luxury fashion.
+  **Archivo** carries reading text. **IBM Plex Mono** marks anything
+  operational — zone codes, timings, labels — so the run of show reads like the
+  call sheet it is.
 - **The scale sequence is the signature.** A pinned frame where the crowd
   multiplies from one silhouette to five thousand as you scroll, with the count
   climbing beside it. It is the only honest way to put "5,000" on a screen:
@@ -181,8 +191,8 @@ assets/
 - `prefers-reduced-motion` is respected — animation stops and the final state
   renders immediately.
 - No horizontal scrolling at any width from 390px up.
-- Measured page weight is **177 KB** over the wire across 16 requests
-  (419 KB raw), fonts, GSAP and artwork included — assuming your host serves
+- Measured page weight is **190 KB** over the wire across 16 requests
+  (440 KB raw), fonts, GSAP and artwork included — assuming your host serves
   gzip or brotli, which every mainstream static host does by default.
 
 ---

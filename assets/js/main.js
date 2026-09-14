@@ -17,7 +17,10 @@
 
   // Weighted toward the mid-tones: a crowd under one key light is
   // tonally close, not a spread of five different values.
-  var GOLD = ['#6B4F18', '#8A6620', '#8A6620', '#B08A36', '#B08A36', '#D4A94F', '#E8C87A'];
+  // Copper ages to patina: the crowd is mostly weathered, with a copper
+  // minority catching the key light. Same material, two ages.
+  var CROWD = ['#59635C', '#59635C', '#879187', '#879187', '#879187',
+               '#B5B9AE', '#9E4829', '#D8753D'];
 
   /* ======================================================================
      Config — one file the client edits, applied over the HTML placeholders
@@ -173,7 +176,7 @@
           // Raised arms on roughly a third of them — it reads as dance, not a queue.
           up: Math.random() < 0.34,
           lean: (Math.random() - 0.5) * 0.5,
-          c: GOLD[(Math.random() * GOLD.length) | 0],
+          c: CROWD[(Math.random() * CROWD.length) | 0],
           a: 0.14 + t * 0.6
         });
       }
@@ -234,15 +237,15 @@
       ctx.clearRect(0, 0, W, H);
       // Key light on the ground behind them.
       var g = ctx.createRadialGradient(W / 2, H * 0.28, 0, W / 2, H * 0.28, Math.max(W, H) * 0.72);
-      g.addColorStop(0, 'rgba(212,169,79,.14)');
-      g.addColorStop(1, 'rgba(212,169,79,0)');
+      g.addColorStop(0, 'rgba(216,117,61,.13)');
+      g.addColorStop(1, 'rgba(216,117,61,0)');
       ctx.fillStyle = g;
       ctx.fillRect(0, 0, W, H);
 
       ctx.save();
       var scrim = ctx.createRadialGradient(W / 2, H * 0.33, 0, W / 2, H * 0.33, Math.max(W, H) * 0.42);
-      scrim.addColorStop(0, 'rgba(7,6,10,.80)');
-      scrim.addColorStop(1, 'rgba(7,6,10,0)');
+      scrim.addColorStop(0, 'rgba(16,12,22,.82)');
+      scrim.addColorStop(1, 'rgba(16,12,22,0)');
       ctx.fillStyle = scrim;
       ctx.fillRect(0, 0, W, H);
       ctx.restore();
@@ -252,7 +255,7 @@
       for (var i = 0; i < people.length && drawn < count; i += step) {
         // One figure, centre stage, when the count is 1.
         if (count === 1) {
-          figure({ x: W / 2, y: H * 0.88, s: 3.4, up: true, lean: 0, c: '#E8C87A', a: .95 });
+          figure({ x: W / 2, y: H * 0.88, s: 3.4, up: true, lean: 0, c: '#D8753D', a: .95 });
           drawn = 1; break;
         }
         figure(people[i]); drawn++;
@@ -328,11 +331,10 @@
     // Angle is what sells a stage light. Each shaft leaves a point above the
     // frame and lands somewhere else along the floor.
     var beams = [
-      { x: .46, land: .06, w: .030, c: '212,169,79',  ph: 0.0, k: 1.00 },
-      { x: .50, land: .27, w: .022, c: '246,227,172', ph: 1.7, k: 0.80 },
-      { x: .53, land: .52, w: .034, c: '232,200,122', ph: 3.1, k: 0.95 },
-      { x: .49, land: .78, w: .026, c: '212,169,79',  ph: 4.6, k: 0.85 },
-      { x: .52, land: .98, w: .020, c: '176,138,54',  ph: 5.4, k: 0.70 }
+      { x: .58, land: .46, w: .018, c: '216,117,61',  ph: 0.0, k: 0.72 },
+      { x: .62, land: .64, w: .013, c: '181,185,174', ph: 1.7, k: 0.40 },
+      { x: .60, land: .80, w: .020, c: '240,154,91',  ph: 3.1, k: 0.62 },
+      { x: .64, land: .96, w: .014, c: '135,145,135', ph: 4.6, k: 0.36 }
     ];
 
     var heroRow = [];
@@ -348,7 +350,7 @@
           s: 0.95 + t * 2.1,
           up: Math.random() < 0.38,
           ph: Math.random() * 6.283,
-          a: 0.62 + t * 0.36
+          a: 0.70 + t * 0.30
         });
       }
       heroRow.sort(function (a, b) { return a.s - b.s; });
@@ -360,8 +362,8 @@
       ctx.save();
       ctx.translate(p.x, p.y + bob);
       ctx.globalAlpha = p.a;
-      ctx.fillStyle = '#000105';
-      ctx.strokeStyle = '#000105';
+      ctx.fillStyle = '#241D30';
+      ctx.strokeStyle = '#241D30';
       ctx.lineJoin = ctx.lineCap = 'round';
       ctx.lineWidth = Math.max(h * 0.085, .8);
       ctx.beginPath();
@@ -399,10 +401,10 @@
 
       // Haze only near the source. Spread across the whole frame it stops
       // being atmosphere and just turns the blacks brown.
-      var haze = ctx.createRadialGradient(W * .5, -H * .08, 0, W * .5, -H * .08, H * .62);
-      haze.addColorStop(0, 'rgba(212,169,79,.16)');
-      haze.addColorStop(.6, 'rgba(212,169,79,.035)');
-      haze.addColorStop(1, 'rgba(212,169,79,0)');
+      var haze = ctx.createRadialGradient(W * .56, -H * .06, 0, W * .56, -H * .06, H * .40);
+      haze.addColorStop(0, 'rgba(216,117,61,.11)');
+      haze.addColorStop(.55, 'rgba(135,145,135,.018)');
+      haze.addColorStop(1, 'rgba(216,117,61,0)');
       ctx.fillStyle = haze;
       ctx.fillRect(0, 0, W, H);
 
@@ -416,8 +418,8 @@
         var ox = W * b.x, oy = -H * 0.12;
         var lx = W * b.land + sway;            // where it lands on the floor
         var src = W * b.w * 0.5;
-        var foot = W * b.w * 2.3;
-        var peak = (0.40 + 0.16 * (0.5 + 0.5 * Math.sin(el * 0.36 + b.ph))) * b.k * (canBlur ? 1 : .5);
+        var foot = W * b.w * 1.9;
+        var peak = (0.46 + 0.16 * (0.5 + 0.5 * Math.sin(el * 0.36 + b.ph))) * b.k * (canBlur ? 1 : .5);
 
         var g = ctx.createLinearGradient(ox, oy, lx, H);
         g.addColorStop(0,   'rgba(' + b.c + ',' + peak.toFixed(3) + ')');
@@ -480,6 +482,31 @@
      Reveals, stage bars, timeline spine
      ====================================================================== */
 
+  // Active navigation state — copper marks where you actually are.
+  function activeNav() {
+    var links = Array.prototype.slice.call(document.querySelectorAll('.nav a[href^="#"]'));
+    var targets = links.map(function (a) {
+      return { a: a, el: document.querySelector(a.getAttribute('href')) };
+    }).filter(function (t) { return t.el; });
+    if (!targets.length) return;
+    var tick = false;
+    function upd() {
+      if (tick) return;
+      tick = true;
+      requestAnimationFrame(function () {
+        var mid = window.innerHeight * 0.4, best = null;
+        targets.forEach(function (t) {
+          var r = t.el.getBoundingClientRect();
+          if (r.top <= mid && r.bottom > mid) best = t;
+        });
+        targets.forEach(function (t) { t.a.classList.toggle('here', t === best); });
+        tick = false;
+      });
+    }
+    window.addEventListener('scroll', upd, { passive: true });
+    upd();
+  }
+
   function reveals() {
     var items = document.querySelectorAll('.rv');
 
@@ -515,6 +542,9 @@
     if (RM.matches) {
       items.forEach(function (el) { el.classList.add('in'); });
       evs.forEach(function (el) { el.classList.add('lit'); });
+      bars.forEach(function (el) { el.classList.add('lit'); });
+      var runRM = document.getElementById('stagesRun');
+      if (runRM) runRM.style.width = '100%';
       return;
     }
 
@@ -525,15 +555,17 @@
           onEnter: function () { el.classList.add('in'); }
         });
       });
-      bars.forEach(function (el, i) {
-        var bar = el.querySelector('.stg__bar');
-        if (!bar) return;
+      var run = document.getElementById('stagesRun');
+      var stagesEl = document.querySelector('.stages');
+      if (run && stagesEl) {
         ST.create({
-          trigger: el, start: 'top 82%', once: true,
-          onEnter: function () {
-            GS.to(bar, { width: '100%', duration: 1.1, ease: 'expo.out', delay: i * 0.09 });
-          }
+          trigger: stagesEl, start: 'top 78%', end: 'bottom 62%', scrub: .5,
+          onUpdate: function (self) { run.style.width = (self.progress * 100) + '%'; }
         });
+      }
+      bars.forEach(function (el) {
+        ST.create({ trigger: el, start: 'top 76%', once: true,
+          onEnter: function () { el.classList.add('lit'); } });
       });
       evs.forEach(function (el) {
         ST.create({ trigger: el, start: 'top 78%', end: 'bottom 40%',
@@ -563,7 +595,26 @@
       });
     }, { threshold: .15, rootMargin: '0px 0px -8% 0px' });
     items.forEach(function (el) { io.observe(el); });
-    bars.forEach(function (el) { io.observe(el); });
+
+    var litStages = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('lit'); litStages.unobserve(e.target); } });
+    }, { threshold: .3 });
+    bars.forEach(function (el) { litStages.observe(el); });
+
+    var run2 = document.getElementById('stagesRun');
+    var stages2 = document.querySelector('.stages');
+    if (run2 && stages2) {
+      var rt2 = false;
+      window.addEventListener('scroll', function () {
+        if (rt2) return; rt2 = true;
+        requestAnimationFrame(function () {
+          var r = stages2.getBoundingClientRect();
+          var p = (window.innerHeight * .78 - r.top) / Math.max(r.height, 1);
+          run2.style.width = Math.max(0, Math.min(1, p)) * 100 + '%';
+          rt2 = false;
+        });
+      }, { passive: true });
+    }
 
     var lit = new IntersectionObserver(function (es) {
       es.forEach(function (e) { e.target.classList.toggle('lit', e.isIntersecting); });
@@ -678,6 +729,7 @@
     grain();
     applyConfig();
     header();
+    activeNav();
     stage();
     heroIn();
     crowd();
