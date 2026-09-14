@@ -1,0 +1,7 @@
+# local preview server / editor noise
+.DS_Store
+*.log
+node_modules/
+preview-*.png
+__pycache__/
+*.pyc

@@ -1,0 +1,24 @@
+The three typefaces bundled in this folder are each released by their authors
+under the SIL Open Font License, Version 1.1, which permits redistribution and
+embedding in a website.
+
+  Bebas Neue     — Copyright (c) Ryoichi Tsunekawa, Dharma Type
+  Source Sans 3  — Copyright (c) Adobe (https://github.com/adobe-fonts/source-sans)
+  IBM Plex Mono  — Copyright (c) IBM Corp. (https://github.com/IBM/plex)
+
+The files here are Latin-subset WOFF2 builds served by Google Fonts.
+
+The full licence text is published at:
+  https://openfontlicense.org/open-font-license-official-text/
+
+Summary of the terms that matter here:
+
+  * The fonts may be used, studied, modified and redistributed freely, on their
+    own or bundled with other software, including for commercial purposes.
+  * The fonts must not be sold on their own.
+  * Any modified version must be released under the same licence, and must not
+    use the Reserved Font Names above.
+  * This notice must be kept with the font files.
+
+If you replace these fonts, check the licence of whatever you replace them with
+before going live.
