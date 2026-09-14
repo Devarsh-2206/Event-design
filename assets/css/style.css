@@ -466,3 +466,117 @@ button { font: inherit; color: inherit; cursor: pointer; }
   *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
   [data-anim] .rv { opacity: 1 !important; transform: none !important; }
 }
+
+/* ==========================================================================
+   Motion
+   --------------------------------------------------------------------------
+   Restrained on purpose. This page has to feel trustworthy to a parent, so
+   movement is here to show craft and guide the eye — never to perform.
+   Everything below animates transform and opacity only, so nothing reflows
+   and nothing shifts the layout while you read.
+   ========================================================================== */
+
+/* --- Hero load sequence -------------------------------------------------
+   Runs once, on the first paint after fonts settle. .seq children start
+   raised and fade down into place in reading order. */
+
+.seq > * { opacity: 1; }
+[data-anim] .seq > * { opacity: 0; transform: translateY(14px); }
+[data-anim] body.ready .seq > * {
+  animation: rise .68s var(--ease) forwards;
+  animation-delay: calc(var(--d, 0) * 85ms);
+}
+@keyframes rise { to { opacity: 1; transform: none; } }
+
+/* The essentials card arrives a beat later and from slightly further out,
+   so it reads as a separate object rather than part of the headline block. */
+[data-anim] .facts { opacity: 0; transform: translateY(20px) scale(.985); }
+[data-anim] body.ready .facts { animation: riseCard .8s var(--ease) .34s forwards; }
+@keyframes riseCard { to { opacity: 1; transform: none; } }
+
+/* --- Staggered reveals --------------------------------------------------
+   Grid children come in one after another instead of as a block. --i is set
+   in JS from each item's position in its own group. */
+
+[data-anim] .rv { transition-delay: calc(var(--i, 0) * 70ms); }
+
+/* --- Hover ---------------------------------------------------------------
+   Cards lift a little and warm their border. Fast enough to feel responsive,
+   slow enough not to twitch. */
+
+.qcard, .sc, .st, .guest {
+  transition: transform .28s var(--ease), box-shadow .28s var(--ease), border-color .28s var(--ease);
+  will-change: transform;
+}
+.qcard:hover, .sc:hover, .st:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 2px 4px rgba(21,27,61,.05), 0 14px 28px -16px rgba(21,27,61,.28);
+  border-color: var(--line-2);
+}
+.guest:hover { transform: translateY(-4px); box-shadow: 0 3px 6px rgba(21,27,61,.06), 0 20px 36px -18px rgba(21,27,61,.32); }
+
+/* The number in the corner of a training step warms on hover. */
+.st::before { transition: color .28s var(--ease), transform .28s var(--ease); }
+.st:hover::before { color: var(--sun); transform: scale(1.06); }
+
+/* The day plan rows shift very slightly — enough to show they are a list you
+   are moving through. */
+.step { transition: background-color .25s var(--ease); }
+.step:hover { background: rgba(255,255,255,.045); }
+.step--peak:hover { background: rgba(255,182,39,.14); }
+
+/* Zone buttons already move; give the chip a matching beat. */
+.zinfo__chip { transition: transform .3s var(--ease); }
+
+/* --- Audience tabs ------------------------------------------------------
+   Switching reader should feel like a considered change, not a jump cut. */
+
+.who__tab { transition: background-color .22s var(--ease), border-color .22s var(--ease),
+            color .22s var(--ease), transform .22s var(--ease); }
+.who__tab:active { transform: scale(.97); }
+.who__panel { animation: panelIn .42s var(--ease); }
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* --- FAQ accordion ------------------------------------------------------
+   details/summary cannot animate its own height, so JS drives it. The
+   wrapper is what moves; the content inside stays still. */
+
+.qa .a { overflow: hidden; }
+.qa summary { transition: color .2s var(--ease), background-color .2s var(--ease); }
+.qa summary:hover { color: var(--rose); }
+.qa details { transition: border-color .25s var(--ease), box-shadow .25s var(--ease); }
+
+/* --- Sticky mobile bar --------------------------------------------------
+   Slides up once the hero CTA has scrolled away, rather than sitting there
+   from the first frame. */
+
+@media (max-width: 760px) {
+  .sticky { transform: translateY(105%); transition: transform .4s var(--ease); }
+  .sticky.up { transform: none; }
+}
+
+/* --- Small touches ------------------------------------------------------ */
+
+.flag svg { transition: transform .4s var(--ease); }
+.flag:hover svg { transform: rotate(72deg); }
+
+.btn { will-change: transform; }
+.btn:active { transform: translateY(0) scale(.985); }
+
+.nav a::after { transform-origin: left; }
+
+/* Anything that moves, stops moving when asked to. */
+@media (prefers-reduced-motion: reduce) {
+  [data-anim] .seq > *,
+  [data-anim] body.ready .seq > *,
+  [data-anim] .facts,
+  [data-anim] body.ready .facts { animation: none !important; opacity: 1 !important; transform: none !important; }
+  .who__panel { animation: none !important; }
+  [data-anim] .rv { transition-delay: 0ms !important; }
+  .qcard:hover, .sc:hover, .st:hover, .guest:hover { transform: none; }
+  .sticky { transform: none !important; }
+  .qa .a { overflow: visible; }
+}

@@ -132,6 +132,14 @@ characterful rather than corporate or luxury; **Archivo** carries reading text,
 chosen for legibility on a phone; **IBM Plex Mono** marks times, zone codes and
 small labels so they are scannable.
 
+**Motion** is deliberately restrained — the page has to feel trustworthy to a
+parent, so movement shows craft and guides the eye rather than performing. The
+hero plays a short load cascade once fonts settle; cards reveal in sequence
+rather than as a slab; the audience panels cross-fade; the FAQ expands
+smoothly; and the mobile register bar slides up only once the hero button has
+scrolled away. All of it is transform and opacity only, and all of it stops
+under `prefers-reduced-motion`.
+
 **The venue map** is interactive — hover or tab the zones for capacity and
 nearest safety points. The zone data is the `ZONES` array in `main.js`; edit it
 to match the real ground map.
@@ -143,11 +151,14 @@ to match the real ground map.
   a screen reader gets the same thing a mouse does.
 - **Without JavaScript the page still works** — all three audience panels
   render and the dead tab controls hide themselves.
-- `prefers-reduced-motion` is respected.
+- `prefers-reduced-motion` is respected — every animation stops and the page
+  renders in its finished state.
 - No element overflows 390px; no touch target under 40px.
 - No third-party requests at runtime — fonts are self-hosted, no CDN, no
   analytics, nothing tracking your visitors' children.
-- Measured page weight **163 KB** over the wire across 14 requests.
+- Measured page weight **166 KB** over the wire across 14 requests.
+- Zero cumulative layout shift: motion only ever animates transform and
+  opacity, so nothing moves under you while you read.
 
 ## Licence
 

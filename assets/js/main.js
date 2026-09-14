@@ -263,6 +263,94 @@
     setTimeout(sweep, 400);
   }
 
+
+  /* ----------------------------------------------------------- motion ---- */
+
+  /* The hero plays its load sequence once fonts have settled, so nothing
+     re-flows mid-animation. If the font promise never resolves we start
+     anyway rather than leaving the page blank. */
+  function heroSequence() {
+    var start = function () { document.body.classList.add('ready'); };
+    if (RM.matches) { start(); return; }
+    var fired = false;
+    var go = function () { if (!fired) { fired = true; requestAnimationFrame(start); } };
+    // Whichever comes first. The hero is at opacity 0 until this runs, so the
+    // window has to stay short — a thumbnail or a link preview grabbed early
+    // would otherwise catch an empty hero.
+    if (document.fonts && document.fonts.status === 'loaded') go();
+    else if (document.fonts && document.fonts.ready) document.fonts.ready.then(go);
+    setTimeout(go, 300);
+  }
+
+  /* Reveal order. Each item gets its index within its own group, so a row of
+     cards comes in one after another instead of as a slab. Capped so a long
+     list never ends with a noticeable wait. */
+  function stagger() {
+    var groups = document.querySelectorAll('.who__grid, .what__grid, .count, .safe__grid, .steps, .guests, .plan');
+    Array.prototype.forEach.call(groups, function (g) {
+      var kids = g.querySelectorAll(':scope > .rv');
+      Array.prototype.forEach.call(kids, function (el, i) {
+        el.style.setProperty('--i', Math.min(i, 6));
+      });
+    });
+  }
+
+  /* FAQ. <details> cannot animate its own height, so drive it: opening sets
+     the attribute then grows from zero, closing shrinks first and only then
+     removes it, which keeps the element keyboard- and screen-reader correct
+     the whole way through. */
+  function accordion() {
+    var items = document.querySelectorAll('.qa details');
+    if (!items.length || RM.matches) return;
+
+    Array.prototype.forEach.call(items, function (d) {
+      var summary = d.querySelector('summary');
+      var panel = d.querySelector('.a');
+      if (!summary || !panel) return;
+      var busy = false;
+
+      function size() { return panel.scrollHeight + 'px'; }
+
+      function animate(to, then) {
+        busy = true;
+        var a = panel.animate(
+          { height: to === 'open' ? ['0px', size()] : [size(), '0px'],
+            opacity: to === 'open' ? [0, 1] : [1, 0] },
+          { duration: to === 'open' ? 320 : 240, easing: 'cubic-bezier(.22,1,.36,1)' }
+        );
+        a.onfinish = a.oncancel = function () {
+          panel.style.height = '';
+          busy = false;
+          if (then) then();
+        };
+      }
+
+      summary.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (busy) return;
+        if (d.open) {
+          animate('close', function () { d.open = false; });
+        } else {
+          d.open = true;
+          animate('open');
+        }
+      });
+    });
+  }
+
+  /* The sticky bar stays out of the way until the hero's own button has
+     scrolled past — showing it immediately would just duplicate the CTA
+     already on screen. */
+  function stickyBar() {
+    var bar = document.querySelector('.sticky');
+    var anchor = document.querySelector('.hero__cta');
+    if (!bar || !anchor) return;
+    if (!('IntersectionObserver' in window)) { bar.classList.add('up'); return; }
+    new IntersectionObserver(function (es) {
+      bar.classList.toggle('up', !es[0].isIntersecting);
+    }, { rootMargin: '-60px 0px 0px 0px' }).observe(anchor);
+  }
+
   /* ------------------------------------------------------------------ form */
 
   function form() {
@@ -303,9 +391,13 @@
     activeNav();
     audience();
     venue();
+    stagger();          // before reveals, so delays are set when they fire
     counters();
     reveals();
+    accordion();
+    stickyBar();
     form();
+    heroSequence();
   }
 
   document.readyState === 'loading'
