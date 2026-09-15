@@ -1,116 +1,132 @@
-# 5,000 Students. One Dance.
+# ONE CITY. ONE STAGE. ONE RECORD.
 
-A single-page site for the SNK Dance Company · TYSUN mass dance event: 5,000+
-Hyderabad school students performing one 15-minute Tollywood routine together on
-**31 October**, staged as an India Book of Records attempt.
+A single-page cinematic site for the SNK Dance Company · TYSUN mass dance event:
+a 15-minute non-stop Tollywood routine performed by 5,000+ school students in
+Hyderabad on **31 October**, staged as an Indian Book of Records attempt.
 
-## Who this page is built for
+The page is written for the person who actually decides — a school principal or
+activity coordinator — so it opens on the spectacle and then answers the
+questions that decide participation: supervision, safety, timetable impact,
+transport and cost.
 
-In this order, because this is the order in which people actually say yes:
-
-1. **A parent**, deciding whether their child is safe. Anxious, reading on a
-   phone, possibly late at night.
-2. **A school**, deciding whether it can carry the day. Thinking about
-   timetable, staffing and responsibility.
-3. **A student**, deciding whether it sounds fun.
-
-Everything on the page serves that order. The signature element is the
-**audience switcher** near the top: three tabs, each answering the six
-questions that reader actually has, in the words they would use. A parent asks
-"what time will they be home?", not "what is the event schedule".
-
-You can link straight to one view: `…/#who?as=parent`, `?as=school` or
-`?as=student`. Useful when a school forwards the page to families.
-
-## Why it is light, not dark
-
-A dark site reads as nightclub, film promo, entertainment. The people who
-decide here are cautious adults, and open daylight reads as honest — you are
-not hiding anything. Colour is doing a job, not decorating:
-
-| Colour | Role | Why |
-|---|---|---|
-| Warm white `#FFFCF6` | Page ground | Daylight, openness, nothing concealed |
-| Deep indigo `#151B3D` | Text, the day plan, registration | Blue is the trust colour; it carries the operational detail |
-| Rose `#C2185B` | Primary action | Energy and urgency, reserved for what you should click |
-| Marigold `#FFB627` | Celebration, times, highlights | Indian festival warmth — **fill only**, see below |
-| Teal `#0E7A6E` | Safety, and only safety | A semantic colour, so "this is about safety" reads before the words do |
-
-Two rules the contrast maths forces, both enforced in the tokens:
-
-* **Marigold is a fill, never text on a light ground.** At 4.14:1 it fails.
-  Dark text on marigold is 9.53:1 and fine.
-* Grey `#5F6480` is the lightest secondary that clears 4.5:1 on *both* the
-  paper and the warm secondary surface.
+**Art direction.** A film, not a web page. Near-black ground, premium metallic
+gold, warm white type, film grain, stage lighting and silhouettes. Gold is never
+a flat swatch — it is an eight-stop ramp with a specular highlight, because that
+is the difference between metal and yellow.
 
 ---
 
 ## Run it
 
-No build step, no framework, no packages.
+There is no build step, no framework and no package to install.
 
 ```bash
-python3 -m http.server 8000     # then open http://localhost:8000
+# from the project folder
+python3 -m http.server 8000
+# then open http://localhost:8000
 ```
 
 To publish, upload the whole folder to any static host — Netlify, Vercel,
-GitHub Pages, Hostinger, cPanel. Opening `index.html` straight off disk mostly
-works, but browsers block webfonts over `file://`, so use the command above to
-preview it properly.
+GitHub Pages, Hostinger, cPanel. Drag and drop works; nothing needs compiling.
 
-## Before it goes live
-
-Everything you need to fill in is in **one file**: `assets/js/config.js`.
-
-| Field | What it is |
-|---|---|
-| `eventDate` / `eventDay` | Shown in the hero card and the footer |
-| `venueShort` / `venueFull` | Short name for the hero card, full address for the footer |
-| `whatsapp` | Coordinator's number, digits with country code (`919876543210`) |
-| `phone` / `email` | Shown in the "rather just talk to someone?" box and the footer |
-| `price` / `priceNote` | The participation fee |
-| `guest1Name` / `guest2Name` | Guest names |
-| `photos` | Guest photographs — read the note in the file first |
-
-Anything left as `""` keeps the safe placeholder already written into the page,
-so the site never shows a blank or a dead link.
-
-### How registration works
-
-Four fields — school, your name, phone, approximate student count. Submitting
-opens WhatsApp on the coordinator's number with the details already typed in;
-they just press send. Falls back to a pre-filled email if no WhatsApp number is
-set. No server, no database, no monthly fee, and enquiries land where Indian
-school coordinators already work.
-
-The form deliberately asks for almost nothing. A parent or principal on a phone
-will abandon a long form, and everything else can be settled on the call back.
+Opening `index.html` directly off the disk mostly works, but browsers block
+webfonts over `file://`, so the display type falls back. Use the command above
+to preview it properly.
 
 ---
 
-## Three things to check before publishing
+## Before it goes live
 
-1. **The guest photographs.** `config.js` has slots for them, and they are
-   empty on purpose. These are real, identifiable people, so you need two
-   things before adding a photo, and neither is optional: a **licence** for the
-   image (press and agency photos are copyrighted — taking one from a search
-   result is infringement), and **written permission** from the person or their
-   office to use their likeness to promote this event. A photograph of a public
-   figure on a page that asks schools for money reads as a confirmed
-   endorsement.
+Everything you need to fill in lives in **one file**: `assets/js/config.js`.
+Open it in any text editor, put your values between the quotes, save, re-upload.
+Nothing else needs touching.
 
-2. **The "Invited · to be confirmed" tags.** The original brief named the
-   choreographer as "Shekar Master **or** Johnny Master", which means neither is
-   settled. Leave the tags in place until you have confirmation in writing.
+| Field | What it is |
+|---|---|
+| `eventDate` | Shown in the hero badge and the footer |
+| `venueShort` / `venueFull` | Short name for the hero strip, full address for the footer |
+| `whatsapp` | Coordinator's number, digits only with country code (`919876543210`). Powers the enquiry form |
+| `phone` / `email` | Footer contact details |
+| `paymentLink` | Your payment page URL — Razorpay, PhonePe, Cashfree, Instamojo, a bank link, anything |
+| `upiId` | UPI ID for the secondary pay button |
+| `price` / `priceNote` | The participation fee and what it covers |
+| `guest1Name` / `guest2Name` | Guest names, once confirmed |
 
-3. **The timings.** The hour-by-hour plan is built from the event flow you gave
-   me, but the individual clock times (9:00, 11:30, 13:30 …) are **indicative
-   values I filled in** — the brief only fixed the arrival window. The page says
-   so, but replace them with the real schedule once it exists. They are in
-   `index.html`, in the `<section class="band day" id="day">` block.
+Every field you leave as `""` keeps the safe placeholder already written into
+the page, so the site never shows a blank or a broken button. The "Pay
+participation fee" button quietly points at the contact section until you add a
+real `paymentLink`, and the UPI button stays hidden until you add a `upiId`.
 
-Also: the page says "record **attempt**" throughout and never claims a record
-has been awarded. Keep it that way until adjudication is actually complete.
+### How the enquiry form works
+
+There is no server and no database. When a school submits the form, it opens
+WhatsApp on the coordinator's number with all the details already typed into the
+message — they just press send. If no `whatsapp` is set but an `email` is, it
+falls back to opening a pre-filled email instead.
+
+This is deliberate: it needs no hosting account, no monthly fee and nothing to
+maintain, and school enquiries land where coordinators already work. If you
+later want enquiries stored in a database or a spreadsheet, that needs a backend
+or a form service (Formspree, Google Forms, Netlify Forms) wired into
+`form()` in `assets/js/main.js`.
+
+---
+
+## Things to check before publishing
+
+Three items on the page make factual claims. Please confirm each one:
+
+1. **The guest names.** The brief listed the choreographer as "Shekar Master
+   **or** Johnny Master", which means neither is confirmed. Both guests are
+   therefore shown with an **"Invited · to be confirmed"** tag. Leave those tags
+   in place until you have a written confirmation. Announcing a public figure's
+   attendance before they have agreed causes real problems, so this is worth
+   being strict about.
+
+2. **The record claim.** The page says "record attempt" throughout and never
+   claims the record has been approved, sanctioned or awarded. Keep it that way
+   until the adjudication is actually complete.
+
+3. **The run-of-show timings.** The hour-by-hour schedule is built from the
+   event flow in the brief, but the individual start times (09:00, 11:30, 13:30
+   and so on) are **indicative timings I filled in** — the brief only gave the
+   arrival window. The page says as much, but replace them with your real call
+   sheet once it exists. They are in `index.html`, in the
+   `<section class="band" id="timeline">` block.
+
+4. **The year on the date.** The brief said "31 October" without a year. The
+   page shows exactly that, and `eventDate` in the config is set to
+   `"31 October"`. 31 October 2026 falls on a Saturday. Set the full date in
+   the config once you confirm it.
+
+Other numbers on the page — 5,000+ students, 15 minutes, 7–10 days of training,
+four sub-stages — come straight from the brief.
+
+---
+
+## Replacing the artwork with real photographs
+
+The images in `assets/images/` are original graphics I generated for this site,
+not stock photos and not pictures of real people. They are built from the same
+"crowd of dots" motif as the animated hero, so the set holds together.
+
+Swap any of them for a real photograph by dropping a file into
+`assets/images/` and changing one `src` in `index.html`:
+
+| File | Where it appears |
+|---|---|
+| `guest-1.svg` … `guest-3.svg` | Guest cards |
+| `og-cover.svg` | The preview card when the link is shared |
+| `mark.svg` | Logo in the header and footer |
+
+Use a `.jpg` at roughly 1600px wide for photographs. Update the `alt` text to
+describe what the photo actually shows.
+
+**One caution on photographs of students.** These are children, so get written
+consent from the school and the parents before putting identifiable faces on a
+public website, and keep that consent on file. Wide crowd shots where nobody is
+identifiable are the safer choice. Replace `og-cover.svg` with a `.jpg` or
+`.png` too — most social platforms will not render an SVG preview card.
 
 ---
 
@@ -122,45 +138,59 @@ assets/
   css/style.css             all styling; design tokens are at the top
   css/fonts.css             @font-face rules for the bundled fonts
   js/config.js              >>> the file you edit <<<
-  js/main.js                tabs, venue map, counters, form
-  fonts/                    Bricolage Grotesque, Archivo, IBM Plex Mono
-  images/                   brand mark, guest photo frames, share card
+  js/main.js                animation, the ground plan, the form
+  fonts/                    Cinzel, Archivo, IBM Plex Mono
+  images/                   artwork
 ```
 
-**Type** does three jobs: **Bricolage Grotesque** carries headings — warm and
-characterful rather than corporate or luxury; **Archivo** carries reading text,
-chosen for legibility on a phone; **IBM Plex Mono** marks times, zone codes and
-small labels so they are scannable.
+### Design notes
 
-**Motion** is deliberately restrained — the page has to feel trustworthy to a
-parent, so movement shows craft and guides the eye rather than performing. The
-hero plays a short load cascade once fonts settle; cards reveal in sequence
-rather than as a slab; the audience panels cross-fade; the FAQ expands
-smoothly; and the mobile register bar slides up only once the hero button has
-scrolled away. All of it is transform and opacity only, and all of it stops
-under `prefers-reduced-motion`.
-
-**The venue map** is interactive — hover or tab the zones for capacity and
-nearest safety points. The zone data is the `ZONES` array in `main.js`; edit it
-to match the real ground map.
+- **Colour** is the metal ramp: eight stops from `#3A2A0D` through to a
+  `#FFF9E4` specular, over a near-black that carries a faint violet bias. Pure
+  `#000` was rejected deliberately — it flattens the grain and kills every
+  shadow layered on it. All of it lives as CSS custom properties at the top of
+  `style.css`.
+- **Type** does three jobs. **Cinzel** is the Trajan-descended Roman capital
+  used on film posters — it carries the titles, set in caps with wide tracking
+  and nothing else. **Archivo** carries reading text and the big numerals.
+  **IBM Plex Mono** marks anything operational — zone codes, timings, labels —
+  so the run of show reads like the call sheet it is.
+- **The scale sequence is the signature.** A pinned frame where the crowd
+  multiplies from one silhouette to five thousand as you scroll, with the count
+  climbing beside it. It is the only honest way to put "5,000" on a screen:
+  make the reader watch it fill up.
+- **The silhouettes are drawn, not dotted.** Filled bodies with head, torso and
+  limbs, tall and narrow — stroked stick figures read as clip-art at any size,
+  which is the fastest way to make a premium page look amateur.
+- **The ground plan** is interactive: hover or tab the zones for capacity and
+  nearest safety points. The zone data is the `ZONES` array in `main.js` — edit
+  it to match the real ground map.
+- **Motion has a job or it is cut.** It either reveals scale (the crowd), marks
+  progress (the timeline spine), or shows state (zone selection). Both canvases
+  stop drawing when scrolled away or when the tab is hidden.
 
 ### Quality checks that pass
 
-- Every text pair meets WCAG AA contrast, on all four surfaces.
-- The audience tabs are real ARIA tabs: arrow keys, Home and End all work, and
-  a screen reader gets the same thing a mouse does.
-- **Without JavaScript the page still works** — all three audience panels
-  render and the dead tab controls hide themselves.
-- `prefers-reduced-motion` is respected — every animation stops and the page
-  renders in its finished state.
-- No element overflows 390px; no touch target under 40px.
-- No third-party requests at runtime — fonts are self-hosted, no CDN, no
-  analytics, nothing tracking your visitors' children.
-- Measured page weight **166 KB** over the wire across 14 requests.
-- Zero cumulative layout shift: motion only ever animates transform and
-  opacity, so nothing moves under you while you read.
+- GSAP + ScrollTrigger drive the cinematic passages, loaded from cdnjs. **Every
+  one has a vanilla fallback**: if that CDN is blocked (school networks often
+  are), reveals, the timeline and the 1 → 5,000 scale sequence all still run.
+  Tested with GSAP present and absent.
+- All text meets WCAG AA contrast (4.5:1 body, 3:1 large) in both the dark and
+  cream sections.
+- Full keyboard navigation with a skip link and visible focus rings.
+- `prefers-reduced-motion` is respected — animation stops and the final state
+  renders immediately.
+- No horizontal scrolling at any width from 390px up.
+- Measured page weight is **177 KB** over the wire across 16 requests
+  (419 KB raw), fonts, GSAP and artwork included — assuming your host serves
+  gzip or brotli, which every mainstream static host does by default.
+
+---
 
 ## Licence
 
-Site code: yours to use for this event. The three bundled typefaces are under
-the SIL Open Font License 1.1 — see `assets/fonts/OFL.txt`.
+Site code: yours to use for this event.
+
+The three bundled typefaces are under the SIL Open Font License 1.1, which
+permits web use and redistribution — see `assets/fonts/OFL.txt`. If you swap
+them for different fonts, check that font's licence first.
