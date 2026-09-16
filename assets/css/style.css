@@ -271,7 +271,10 @@ button { font: inherit; color: inherit; cursor: pointer; }
 /* ========================================================================== */
 
 .hero {
-  position: relative; min-height: 100svh;
+  /* Capped inside min-height: a max-height cannot shrink a larger
+     min-height, and when this page is embedded in a full-height iframe the
+     viewport can report the entire document, making 100svh enormous. */
+  position: relative; min-height: min(100svh, 1000px);
   display: grid; align-content: center; grid-template-columns: minmax(0, 1fr);
   padding-block: 7rem 5rem;
   overflow: hidden; isolation: isolate;
@@ -328,8 +331,14 @@ button { font: inherit; color: inherit; cursor: pointer; }
 /* 2 · Scale — pinned canvas, the crowd multiplies as you scroll               */
 /* ========================================================================== */
 
-.scale { position: relative; }
-.scale__pin { height: 100svh; display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; justify-items: center; position: relative; overflow: hidden; padding-top: clamp(6rem, 17vh, 11rem); }
+/* A faint spill of the same stage light as the hero, so the approach to
+   the pinned frame reads as walking into a dark room rather than as an
+   empty gap while the readout is still fading up. */
+.scale { position: relative;
+  background:
+    radial-gradient(130% 44% at 50% 0%, rgba(212,169,79,.055), transparent 62%),
+    radial-gradient(90% 30% at 50% 100%, rgba(212,169,79,.03), transparent 70%); }
+.scale__pin { height: min(100svh, 1000px); will-change: opacity; display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; justify-items: center; position: relative; overflow: hidden; padding-top: clamp(6rem, 17vh, 11rem); }
 .scale__canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 .scale__read { position: relative; z-index: 2; text-align: center; pointer-events: none; }
 .scale__n {

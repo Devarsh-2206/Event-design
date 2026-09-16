@@ -19,6 +19,17 @@
   // tonally close, not a spread of five different values.
   var GOLD = ['#6B4F18', '#8A6620', '#8A6620', '#B08A36', '#B08A36', '#D4A94F', '#E8C87A'];
 
+
+  // Viewport height, clamped. Used anywhere a length is derived from the
+  // viewport, because an embedded page can report an enormous one.
+  function vh() { return Math.max(360, Math.min(window.innerHeight, 1000)); }
+
+  // True when the page has no scroll of its own — embedded in a full-height
+  // iframe, for example. Scroll-driven effects cannot work in that case.
+  function cannotScroll() {
+    return document.documentElement.scrollHeight <= window.innerHeight + 4;
+  }
+
   /* ======================================================================
      Config — one file the client edits, applied over the HTML placeholders
      ====================================================================== */
@@ -262,7 +273,11 @@
 
     function fmt(n) { return n.toLocaleString('en-IN'); }
 
+    // Count reaches 5,000 by COUNT_DONE, holds, then the frame dissolves.
+    var COUNT_DONE = 0.74;
+
     function render(p) {                                 // p = 0..1 scroll progress
+      p = Math.min(p / COUNT_DONE, 1);
       var seg = Math.min(Math.floor(p * STEPS.length), STEPS.length - 1);
       var prev = seg === 0 ? { n: 1 } : STEPS[seg - 1];
       var local = (p * STEPS.length) - seg;
@@ -283,26 +298,90 @@
       return;
     }
 
+    var sec = document.querySelector('.scale');
+
+    // No scroll of our own means no scrubbing is possible: show the finished
+    // formation rather than an empty pinned frame.
+    if (cannotScroll()) {
+      sec.style.height = '';
+      pin.style.height = vh() + 'px';
+      draw(5000); nEl.textContent = '5,000'; lEl.textContent = 'Students';
+      cEl.textContent = STEPS[STEPS.length - 1].c;
+      return;
+    }
+
+    function pinLen() { return Math.round(vh() * 3.2); }
+
+    // The frame fades in as it arrives and dissolves as it leaves. Without the
+    // first, the readout rides up over the section above while that section is
+    // still on screen; without the second, 5,000 slides away as a solid block
+    // instead of handing off to what follows.
+    var fadeIn = 0, fadeOut = 1;
+    function applyFade() {
+      pin.style.opacity = Math.max(0, Math.min(1, Math.min(fadeIn, fadeOut)));
+    }
+    // Exit: the frame dissolves as it scrolls away, over exactly its own
+    // height, so 5,000 hands off to the next section instead of sliding off
+    // as a solid block. Driven by geometry rather than pin progress, because
+    // the fade has to happen AFTER the pin releases.
+    function exitFromRect() {
+      var r = sec.getBoundingClientRect();
+      var view = window.innerHeight;
+      return Math.max(0, Math.min(1, r.bottom / view));
+    }
+
+    // Entry progress from geometry, so the frame is correct on first paint and
+    // any time a trigger has not fired yet.
+    function entryFromRect() {
+      var r = sec.getBoundingClientRect();
+      var gate = window.innerHeight * 0.40;
+      return Math.max(0, Math.min(1, (gate - r.top) / gate));
+    }
+
     if (HAS) {
+      // Entry: stays invisible until the section has the screen to itself.
       ST.create({
-        trigger: '.scale', start: 'top top', end: '+=320%',
+        trigger: sec, start: 'top 40%', end: 'top top', scrub: true,
+        onUpdate: function (self) { fadeIn = self.progress; applyFade(); }
+      });
+
+      ST.create({
+        trigger: sec, start: 'top top', end: '+=' + pinLen(),
         pin: pin, scrub: 0.6, invalidateOnRefresh: true,
         onUpdate: function (self) { render(self.progress); },
         onRefreshInit: build
       });
-      // Give the section the scroll length the pin needs.
-      document.querySelector('.scale').style.height = '420svh';
+
+      // pinSpacing inserts the scroll length itself; the trailing stretch it
+      // adds is exactly where the exit fade happens.
+      sec.style.height = '';
+      pin.style.height = vh() + 'px';
+
+      function sync() { fadeIn = entryFromRect(); fadeOut = exitFromRect(); applyFade(); }
+      sync();
+      var ft = false;
+      window.addEventListener('scroll', function () {
+        if (ft) return; ft = true;
+        requestAnimationFrame(function () { sync(); ft = false; });
+      }, { passive: true });
+      window.addEventListener('resize', sync);
     } else {
       // No GSAP: same story, driven by the section's own scroll position.
-      document.querySelector('.scale').style.height = '420svh';
+      sec.style.height = (pinLen() + vh()) + 'px';
+      pin.style.height = vh() + 'px';
       pin.style.position = 'sticky'; pin.style.top = '0';
-      var sec = document.querySelector('.scale'), tick = false;
+      var tick = false;
       function upd() {
         if (tick) return; tick = true;
         requestAnimationFrame(function () {
           var r = sec.getBoundingClientRect();
-          var p = -r.top / Math.max(1, r.height - window.innerHeight);
-          render(Math.max(0, Math.min(1, p))); tick = false;
+          var view = window.innerHeight;
+          var p = Math.max(0, Math.min(1, -r.top / Math.max(1, sec.offsetHeight - view)));
+          render(p);
+          fadeIn = entryFromRect();
+          fadeOut = exitFromRect();
+          applyFade();
+          tick = false;
         });
       }
       window.addEventListener('scroll', upd, { passive: true });
@@ -312,7 +391,13 @@
     var rt;
     window.addEventListener('resize', function () {
       clearTimeout(rt);
-      rt = setTimeout(function () { build(); draw(shown || 1); if (HAS) ST.refresh(); }, 200);
+      rt = setTimeout(function () {
+        if (!cannotScroll()) {
+          if (!HAS) sec.style.height = (pinLen() + vh()) + 'px';
+          pin.style.height = vh() + 'px';
+        }
+        build(); draw(shown || 1); if (HAS) ST.refresh();
+      }, 200);
     });
   }
 
@@ -518,13 +603,21 @@
       return;
     }
 
-    if (HAS) {
-      items.forEach(function (el) {
-        ST.create({
-          trigger: el, start: 'top 88%', once: true,
-          onEnter: function () { el.classList.add('in'); }
+    // Base layer: always on, independent of any scrolling.
+    if ('IntersectionObserver' in window) {
+      var base = new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          e.target.classList.add('in');
+          base.unobserve(e.target);
         });
-      });
+      }, { threshold: 0, rootMargin: '0px 0px -4% 0px' });
+      items.forEach(function (el) { base.observe(el); });
+    } else {
+      items.forEach(function (el) { el.classList.add('in'); });
+    }
+
+    if (HAS) {
       bars.forEach(function (el, i) {
         var bar = el.querySelector('.stg__bar');
         if (!bar) return;
