@@ -20,20 +20,10 @@ window.EVENT_CONFIG = {
 
   /* ---- 2. REGISTRATION & PAYMENT --------------------------------------- */
 
-  // Step 1 — the booking page schools fill in.
+  // The booking page schools fill in. Payment is taken on this same page,
+  // straight after the form, so the site has no separate payment link.
   registrationLink:
     "https://www.cofee.life/register/events/15-mins-non-stop-tollywood-dance-record/evnt_WWa4rsr7Gf2598",
-
-  // Step 2 — where schools actually pay.
-  //
-  // NOT SET YET. While this is empty, the "Pay now" button is hidden and a
-  // short line appears instead telling schools to message on WhatsApp for
-  // payment details, so nobody hits a dead button.
-  //
-  // If the registration page above already collects payment, put that same
-  // link here. Otherwise paste your payment page — Razorpay, PhonePe,
-  // Cashfree, Instamojo, a bank link, anything.
-  paymentLink: "",
 
   // Fee shown on the card. Leave "" to keep "On request".
   price:       "",          // e.g. "₹350"

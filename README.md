@@ -45,35 +45,26 @@ Nothing else needs touching.
 |---|---|
 | `eventDate` | Shown in the hero badge and the footer |
 | `venueShort` / `venueFull` | Short name for the hero strip, full address for the footer |
-| `registrationLink` | The booking page schools fill in (step 1) — already set |
-| `paymentLink` | Where schools pay (step 2) — **not set yet**, see below |
+| `registrationLink` | The booking page schools fill in and pay on — already set |
 | `whatsapp` | Coordinator's WhatsApp, digits with country code — already set to `919912912722` |
 | `phone` / `email` | Footer contact details |
-| `paymentLink` | Your payment page URL — Razorpay, PhonePe, Cashfree, Instamojo, a bank link, anything |
-| `upiId` | UPI ID for the secondary pay button |
 | `price` / `priceNote` | The participation fee and what it covers |
 | `guest1Name` / `guest2Name` | Guest names, once confirmed |
 
 Every field you leave as `""` keeps the safe placeholder already written into
-the page, so the site never shows a blank or a broken button. The "Pay
-participation fee" button quietly points at the contact section until you add a
-real `paymentLink`, and the UPI button stays hidden until you add a `upiId`.
+the page, so the site never shows a blank or a broken button.
 
 ### How registering works
 
 Three steps on the page, in order:
 
 1. **Register** — the button opens the booking page (`registrationLink`).
-2. **Pay** — the button opens `paymentLink`.
+2. **Pay** — payment is taken on that same booking page, straight after the
+   form. There is no separate payment link on the site, and nothing to
+   configure here.
 3. **Send the receipt** — opens WhatsApp to the coordinator's number with a
    message already written, asking for the school name and student count, and
    reminding them to attach the receipt.
-
-**The payment link is not set yet.** While `paymentLink` is empty the "Pay now"
-button is hidden and a short line appears in its place telling schools to
-message on WhatsApp for payment details — so nobody ever hits a dead button.
-Fill `paymentLink` in and the button appears automatically. If the registration
-page already takes payment, put that same URL in both fields.
 
 **Seating is no longer shown.** The ground map section was removed: areas are
 marked out and assigned by the ground team on the day, so the page no longer

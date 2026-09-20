@@ -46,7 +46,6 @@
                   encodeURIComponent('School participation — 31 October record attempt') : '',
       phoneDisplay: c.phone, emailDisplay: c.email,
       registrationLink: c.registrationLink,
-      paymentLink: c.paymentLink,
       // General enquiry.
       waLink: waUrl('Hi, I would like to ask about the 31 October record attempt for our school.'),
       // Step 3: the message already names what is attached, so a coordinator
@@ -73,14 +72,6 @@
       el.setAttribute('href', v);
       if (/^https?:/i.test(v)) { el.setAttribute('target', '_blank'); el.setAttribute('rel', 'noopener'); }
     });
-    // Until a payment link exists, hide the button and show the WhatsApp
-    // fallback instead — a dead "Pay now" is worse than no button.
-    var payBtn  = document.getElementById('paybtn');
-    var paySoon = document.getElementById('paysoon');
-    if (payBtn && !c.paymentLink) {
-      payBtn.hidden = true;
-      if (paySoon) paySoon.hidden = false;
-    }
     var yr = document.getElementById('yr');
     if (yr) yr.textContent = new Date().getFullYear();
   }
