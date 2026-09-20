@@ -116,7 +116,8 @@ Swap any of them for a real photograph by dropping a file into
 | File | Where it appears |
 |---|---|
 | `guest-1.svg` … `guest-3.svg` | Guest cards |
-| `og-cover.svg` | The preview card when the link is shared |
+| `og-cover.svg` | Source artwork for the share preview |
+| `og-cover.jpg` | The share preview itself — 1200×630, rendered from the SVG above |
 | `mark.svg` | Logo in the header and footer |
 
 Use a `.jpg` at roughly 1600px wide for photographs. Update the `alt` text to
@@ -125,8 +126,9 @@ describe what the photo actually shows.
 **One caution on photographs of students.** These are children, so get written
 consent from the school and the parents before putting identifiable faces on a
 public website, and keep that consent on file. Wide crowd shots where nobody is
-identifiable are the safer choice. Replace `og-cover.svg` with a `.jpg` or
-`.png` too — most social platforms will not render an SVG preview card.
+identifiable are the safer choice. The share preview is already
+a `.jpg` (`og-cover.jpg`) because most social platforms will not render an SVG
+preview card; if you edit `og-cover.svg`, re-export it at 1200×630.
 
 ---
 
@@ -184,6 +186,66 @@ assets/
 - Measured page weight is **177 KB** over the wire across 16 requests
   (419 KB raw), fonts, GSAP and artwork included — assuming your host serves
   gzip or brotli, which every mainstream static host does by default.
+
+---
+
+## Putting it online, and the address it sits at
+
+The site is plain HTML, CSS and JavaScript with no build step, and every path
+in it is relative. That means it runs from any static host, at a domain root or
+in a sub-folder, with nothing to configure.
+
+### Free addresses that actually still work
+
+Every free static host below gives you an address on **their** domain. That is
+free permanently, not a trial.
+
+| Host | Address you get | Notes |
+|---|---|---|
+| Cloudflare Pages | `something.pages.dev` | Fastest of these from India. Connect this GitHub repo and it redeploys on every push. |
+| Netlify | `something.netlify.app` | Drag the folder onto the dashboard, or connect the repo. |
+| Vercel | `something.vercel.app` | Same idea. |
+| GitHub Pages | `devarsh-2206.github.io/Event-design/` | Zero setup — Settings → Pages → deploy from this branch, folder `/`. Longest address of the four. |
+
+Pick the name carefully; it is what schools will read out. `tysun.pages.dev`
+reads far better than `event-design-final-v2.netlify.app`.
+
+### Free *custom* domains — read this before chasing one
+
+The old answer to this was Freenom, which handed out `.tk`, `.ml`, `.ga`, `.cf`
+and `.gq` for free. **That is over.** Freenom stopped free registrations after
+Meta sued it over phishing, `.tk` is closed to new registrations entirely, and
+`.ml` went back to Mali's own registry. Freenom now sells a few of those
+extensions instead of giving them away. Those endings also carry a bad
+reputation with spam filters — a school's mail server may well bin an email
+that links to one, which is the opposite of what this site needs.
+
+What is left that is genuinely free:
+
+- **`.eu.org`** — free, permanent, run by volunteers since 1996, approved by a
+  human so it can take days or weeks. Reads oddly for a Hyderabad event.
+- **`.is-a.dev`** — free, but it is for developer portfolios, not events.
+- **GitHub Student Developer Pack** — if you have a student email, this
+  includes a free domain for a year from Namecheap or Name.com, across
+  extensions like `.me`, `.live` and `.app`. Free for the first year only;
+  normal renewal rates apply after that.
+
+My honest recommendation: for a public event where schools, parents and a
+records body will all see the address, **use a free `.pages.dev` subdomain now**
+so the site is live today, and buy a real `.in` or `.com` when the client is
+ready. A `.in` is cheap — I believe it is in the ballpark of a few hundred
+rupees for the first year, but prices move and vary by registrar, so check the
+current rate yourself before quoting it to the client. Moving the site to a real
+domain later is a DNS change, not a rebuild.
+
+### After you have a domain
+
+Open `index.html` and replace **`YOUR-DOMAIN`** on the five lines near the top
+(they are flagged with a comment). Those lines control the canonical URL and the
+link preview. WhatsApp and Facebook only fetch a preview image from a full
+`https://` address, so until they are filled in, a forwarded link shows text
+with no picture — which matters, because that preview is the first thing a
+school principal sees.
 
 ---
 
