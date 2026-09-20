@@ -45,6 +45,11 @@
       mailtoLink: c.email ? 'mailto:' + c.email + '?subject=' +
                   encodeURIComponent('School participation — 31 October record attempt') : '',
       phoneDisplay: c.phone, emailDisplay: c.email,
+      telAltLink: c.phoneAlt ? 'tel:' + c.phoneAlt.replace(/[^\d+]/g, '') : '',
+      phoneAltDisplay: c.phoneAlt,
+      instagramLink: c.instagram ? 'https://instagram.com/' + c.instagram.replace(/^@/, '') : '',
+      instagramDisplay: c.instagram ? '@' + c.instagram.replace(/^@/, '') : '',
+      officeAddress: c.officeAddress,
       registrationLink: c.registrationLink,
       // General enquiry.
       waLink: waUrl('Hi, I would like to ask about the 31 October record attempt for our school.'),
@@ -281,8 +286,11 @@
 
     function fmt(n) { return n.toLocaleString('en-IN'); }
 
-    // Count reaches 5,000 by COUNT_DONE, holds, then the frame dissolves.
-    var COUNT_DONE = 0.74;
+    // Count reaches 5,000 by COUNT_DONE, holds just long enough to register,
+    // then the frame dissolves. Push this much past 0.9 and 5,000 flashes by
+    // unread; pull it much below 0.85 and the pin feels stuck, because every
+    // remaining scroll of the pin happens with nothing on screen changing.
+    var COUNT_DONE = 0.88;
 
     function render(p) {                                 // p = 0..1 scroll progress
       p = Math.min(p / COUNT_DONE, 1);
@@ -318,7 +326,11 @@
       return;
     }
 
-    function pinLen() { return Math.round(vh() * 3.2); }
+    // How far you scroll while the frame is pinned. This is the whole feel of
+    // the section: too short and the count is a blur, too long and the page
+    // stops answering the wheel. Just over two screens, with the count filling
+    // the first 88% of it, is the most scrolling this earns.
+    function pinLen() { return Math.round(vh() * 2.2); }
 
     // The frame fades in as it arrives and dissolves as it leaves. Without the
     // first, the readout rides up over the section above while that section is
@@ -355,7 +367,7 @@
 
       ST.create({
         trigger: sec, start: 'top top', end: '+=' + pinLen(),
-        pin: pin, scrub: 0.6, invalidateOnRefresh: true,
+        pin: pin, scrub: 0.35, invalidateOnRefresh: true,
         onUpdate: function (self) { render(self.progress); },
         onRefreshInit: build
       });

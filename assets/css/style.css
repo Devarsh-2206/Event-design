@@ -491,6 +491,26 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .detail dd { margin: 0; font-family: var(--display); font-weight: 700; font-size: 1.16rem; letter-spacing: .06em; text-transform: uppercase; line-height: 1.35; }
 .detail dd small { display: block; margin-top: .55rem; font-family: var(--sans); font-weight: 400; font-size: .88rem; letter-spacing: 0; text-transform: none; color: var(--bone-2); line-height: 1.6; }
 
+/* Organiser contact block, under the details grid. Same slab as .detail so the
+   two read as one table, but laid out as label-over-value because addresses
+   and handles wrap badly in a two-column definition row. */
+.contact { margin-top: 1px; background: var(--pit); border: 1px solid var(--edge-2); border-top: 0;
+  padding: clamp(1.6rem, 2.8vw, 2.2rem) 1.5rem; }
+.contact__k { font-family: var(--mono); font-size: .58rem; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--g5); margin: 0 0 1.4rem; }
+.contact__g { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: clamp(1.3rem, 2.6vw, 2.2rem); }
+.contact__i span { display: block; font-family: var(--mono); font-size: .55rem; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--bone-3); margin-bottom: .5rem; }
+.contact__i p { margin: 0; font-size: .95rem; line-height: 1.65; color: var(--bone); }
+.contact__i a { display: block; color: var(--bone); text-decoration: none; padding-block: .18rem;
+  overflow-wrap: break-word; transition: color .25s var(--ease); }
+.contact__i a:hover, .contact__i a:focus-visible { color: var(--g6); }
+
+/* The office address is the longest line in the footer; let it breathe rather
+   than fight the 150px column the nav lists sit in. */
+.ft__addr { display: block; line-height: 1.65; max-width: 30ch; }
+
 /* ========================================================================== */
 /* 11 · FAQ                                                                    */
 /* ========================================================================== */
@@ -557,7 +577,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .ft__l { color: var(--bone-2); font-size: .93rem; max-width: 40ch; margin: 1.1rem 0 0; }
 .ft h4 { font-family: var(--mono); font-size: .58rem; letter-spacing: .22em; text-transform: uppercase; color: var(--bone-3); margin-bottom: 1.1rem; }
 .ft li { padding-block: .34rem; }
-.ft li a, .ft li span { text-decoration: none; color: var(--bone-2); font-size: .92rem; transition: color .25s var(--ease); }
+.ft li a, .ft li span { text-decoration: none; color: var(--bone-2); font-size: .92rem;
+  /* the email address is one unbreakable token and runs off a 390px screen */
+  overflow-wrap: break-word; transition: color .25s var(--ease); }
 .ft li a:hover { color: var(--g6); }
 .ft__b { margin-top: clamp(2.5rem, 5vw, 3.5rem); padding-top: 1.5rem; border-top: 1px solid var(--edge-2);
   display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between;

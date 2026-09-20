@@ -1,0 +1,42 @@
+# Publishes the site to GitHub Pages on every push.
+#
+# The site is plain HTML/CSS/JS with no build step, so the whole repository is
+# uploaded as-is. `enablement: true` turns Pages on the first time this runs,
+# so there is nothing to switch on by hand in the repository settings.
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [claude/indian-book-records-dance-mvsmpa]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Let a running deploy finish rather than cancelling it, so a half-uploaded
+# site is never what ends up live.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

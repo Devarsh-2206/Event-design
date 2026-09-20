@@ -195,17 +195,26 @@ The site is plain HTML, CSS and JavaScript with no build step, and every path
 in it is relative. That means it runs from any static host, at a domain root or
 in a sub-folder, with nothing to configure.
 
-### Free addresses that actually still work
+### It is already live
 
-Every free static host below gives you an address on **their** domain. That is
-free permanently, not a trial.
+Every push to `claude/indian-book-records-dance-mvsmpa` deploys the site to
+GitHub Pages through `.github/workflows/pages.yml`. Nothing to run by hand.
+
+**https://devarsh-2206.github.io/Event-design/**
+
+That address is free and permanent, and it is fine to send to schools today.
+
+### Free addresses with a shorter name
+
+If you want something that reads better out loud, these static hosts give you a
+permanent free address on their own domain. Connect this repository and each one
+redeploys on every push, exactly as Pages does.
 
 | Host | Address you get | Notes |
 |---|---|---|
-| Cloudflare Pages | `something.pages.dev` | Fastest of these from India. Connect this GitHub repo and it redeploys on every push. |
-| Netlify | `something.netlify.app` | Drag the folder onto the dashboard, or connect the repo. |
-| Vercel | `something.vercel.app` | Same idea. |
-| GitHub Pages | `devarsh-2206.github.io/Event-design/` | Zero setup — Settings → Pages → deploy from this branch, folder `/`. Longest address of the four. |
+| Cloudflare Pages | `tysun.pages.dev` | Fastest of these from India. |
+| Netlify | `tysun.netlify.app` | Drag the folder onto the dashboard, or connect the repo. |
+| Vercel | `tysun.vercel.app` | Same idea. |
 
 Pick the name carefully; it is what schools will read out. `tysun.pages.dev`
 reads far better than `event-design-final-v2.netlify.app`.
@@ -230,22 +239,25 @@ What is left that is genuinely free:
   extensions like `.me`, `.live` and `.app`. Free for the first year only;
   normal renewal rates apply after that.
 
-My honest recommendation: for a public event where schools, parents and a
-records body will all see the address, **use a free `.pages.dev` subdomain now**
-so the site is live today, and buy a real `.in` or `.com` when the client is
-ready. A `.in` is cheap — I believe it is in the ballpark of a few hundred
-rupees for the first year, but prices move and vary by registrar, so check the
-current rate yourself before quoting it to the client. Moving the site to a real
-domain later is a DNS change, not a rebuild.
+My honest recommendation: the Pages address above is live and costs nothing, so
+use it now and buy a real `.in` or `.com` when the client is ready. A `.in` is
+cheap — I believe it is in the ballpark of a few hundred rupees for the first
+year, but prices move and vary by registrar, so check the current rate yourself
+before quoting it to the client. Moving the site to a real domain later is a DNS
+change, not a rebuild.
 
 ### After you have a domain
 
-Open `index.html` and replace **`YOUR-DOMAIN`** on the five lines near the top
-(they are flagged with a comment). Those lines control the canonical URL and the
-link preview. WhatsApp and Facebook only fetch a preview image from a full
-`https://` address, so until they are filled in, a forwarded link shows text
-with no picture — which matters, because that preview is the first thing a
+Two things to change, both at the top of `index.html` (they are flagged with a
+comment): the five `https://devarsh-2206.github.io/Event-design/` URLs become
+your own, and — if you are on a host other than Pages — point that host at this
+repository. Those URLs must stay full `https://` addresses; WhatsApp and
+Facebook only fetch a preview image from one, so a relative path means a
+forwarded link shows text with no picture. That preview is the first thing a
 school principal sees.
+
+Add a `CNAME` file at the repository root containing just the domain if you stay
+on GitHub Pages, then point the domain's DNS at GitHub.
 
 ---
 

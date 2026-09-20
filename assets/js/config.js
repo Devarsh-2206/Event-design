@@ -36,8 +36,18 @@ window.EVENT_CONFIG = {
   // 91 is India. Powers step 3 and every "message us" link.
   whatsapp:    "919912912722",
 
-  phone:       "99129 12722",
-  email:       "",          // e.g. "events@snkdance.in"
+  phone:       "+91 99129 12722",
+  phoneAlt:    "+91 74168 31888",   // second line, shown beside the first
+  email:       "snkdancecompany@gmail.com",
+
+  // Instagram handle without the "@".
+  instagram:   "IBR_tollywood15",
+
+  // SNK Dance Company's OFFICE address — the organiser, not the event ground.
+  // The ground itself is still to be announced; that is venueShort/venueFull
+  // in section 1 above.
+  officeAddress:
+    "SNK Dance Company, 4th Floor, above KPN Fresh Super Market, Dammaiguda, Kapra, Hyderabad 500083",
 
 
   /* ---- 4. GUESTS -------------------------------------------------------- */
