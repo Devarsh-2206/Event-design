@@ -36,13 +36,24 @@
 
   function applyConfig() {
     var c = window.EVENT_CONFIG || {};
+    var wa = (c.whatsapp || '').replace(/\D/g, '');
+    function waUrl(msg) {
+      return wa ? 'https://wa.me/' + wa + (msg ? '?text=' + encodeURIComponent(msg) : '') : '';
+    }
     var d = {
       telLink:    c.phone ? 'tel:' + c.phone.replace(/[^\d+]/g, '') : '',
       mailtoLink: c.email ? 'mailto:' + c.email + '?subject=' +
                   encodeURIComponent('School participation — 31 October record attempt') : '',
-      phoneDisplay: c.phone, emailDisplay: c.email, paymentLink: c.paymentLink,
-      upiLink: c.upiId ? 'upi://pay?pa=' + encodeURIComponent(c.upiId) +
-               '&pn=' + encodeURIComponent(c.upiName || 'SNK Dance Company') + '&cu=INR' : ''
+      phoneDisplay: c.phone, emailDisplay: c.email,
+      registrationLink: c.registrationLink,
+      paymentLink: c.paymentLink,
+      // General enquiry.
+      waLink: waUrl('Hi, I would like to ask about the 31 October record attempt for our school.'),
+      // Step 3: the message already names what is attached, so a coordinator
+      // can match a receipt to a school without asking.
+      waReceiptLink: waUrl(
+        'Hi, sending our payment receipt for the 31 October record attempt.\n\n' +
+        'School: \nNumber of students: \n\n(Please attach the receipt or screenshot to this message.)')
     };
     function val(k) {
       if (d[k]) return d[k];
@@ -62,8 +73,14 @@
       el.setAttribute('href', v);
       if (/^https?:/i.test(v)) { el.setAttribute('target', '_blank'); el.setAttribute('rel', 'noopener'); }
     });
-    var upi = document.getElementById('upibtn');
-    if (upi && !c.upiId) upi.hidden = true;
+    // Until a payment link exists, hide the button and show the WhatsApp
+    // fallback instead — a dead "Pay now" is worse than no button.
+    var payBtn  = document.getElementById('paybtn');
+    var paySoon = document.getElementById('paysoon');
+    if (payBtn && !c.paymentLink) {
+      payBtn.hidden = true;
+      if (paySoon) paySoon.hidden = false;
+    }
     var yr = document.getElementById('yr');
     if (yr) yr.textContent = new Date().getFullYear();
   }
@@ -681,54 +698,6 @@
      6 · Venue map
      ====================================================================== */
 
-  var ZONES = [
-    { id: 'A1', n: 'Front left',   rows: '1–8',   cap: 420, near: 'First aid · Water point 1' },
-    { id: 'A2', n: 'Front centre', rows: '1–8',   cap: 480, near: 'Ambulance bay · Water point 2' },
-    { id: 'A3', n: 'Front right',  rows: '1–8',   cap: 420, near: 'First aid · Water point 3' },
-    { id: 'A4', n: 'Front wing',   rows: '1–8',   cap: 380, near: 'Exit route A · Washrooms' },
-    { id: 'B1', n: 'Mid left',     rows: '9–16',  cap: 440, near: 'Water point 4 · Exit route B' },
-    { id: 'B2', n: 'Mid centre',   rows: '9–16',  cap: 500, near: 'Sub-stage 2 · First aid' },
-    { id: 'B3', n: 'Mid right',    rows: '9–16',  cap: 440, near: 'Sub-stage 3 · Water point 5' },
-    { id: 'B4', n: 'Mid wing',     rows: '9–16',  cap: 380, near: 'Exit route C · Washrooms' },
-    { id: 'C1', n: 'Rear left',    rows: '17–24', cap: 400, near: 'Bus parking 1 · Water point 6' },
-    { id: 'C2', n: 'Rear centre',  rows: '17–24', cap: 460, near: 'Coordination point · First aid' },
-    { id: 'C3', n: 'Rear right',   rows: '17–24', cap: 400, near: 'Bus parking 2 · Water point 7' },
-    { id: 'C4', n: 'Rear wing',    rows: '17–24', cap: 360, near: 'Exit route D · Washrooms' }
-  ];
-
-  function venue() {
-    var host = document.getElementById('zones'), card = document.getElementById('zinfo');
-    if (!host || !card) return;
-
-    ZONES.forEach(function (z, i) {
-      var b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'zone';
-      b.setAttribute('aria-label', 'Zone ' + z.id + ', ' + z.n + ', about ' + z.cap + ' students');
-      var dots = '';
-      for (var d = 0; d < 27; d++) dots += '<i></i>';
-      b.innerHTML = '<b>' + z.id + '</b><span>' + z.n + '</span>' +
-                    '<span class="dots" aria-hidden="true">' + dots + '</span>';
-      ['click', 'mouseenter', 'focus'].forEach(function (ev) {
-        b.addEventListener(ev, function () { pick(i); });
-      });
-      host.appendChild(b);
-    });
-
-    function pick(i) {
-      var z = ZONES[i];
-      Array.prototype.forEach.call(host.children, function (el, n) { el.classList.toggle('on', n === i); });
-      card.innerHTML =
-        '<div class="zinfo__h"><span class="zinfo__chip">' + z.id + '</span>' +
-        '<span><h3>' + z.n + '</h3><span class="zinfo__s">Rows ' + z.rows + ' · facing main stage</span></span></div>' +
-        '<p>Schools in this zone stand together behind their own flag marker. Teachers stay inside ' +
-        'the block, and a trainer is assigned per row group so the counts reach the back rows.</p>' +
-        '<dl><dt>Approx. capacity</dt><dt>Nearest points</dt>' +
-        '<dd class="big">' + z.cap + '</dd><dd>' + z.near + '</dd></dl>';
-    }
-    pick(1);
-  }
-
   /* ======================================================================
      12 · Enquiry form — WhatsApp handoff, email fallback
      ====================================================================== */
@@ -775,7 +744,6 @@
     heroIn();
     crowd();
     reveals();
-    venue();
     form();
     if (HAS) ST.refresh();
   }

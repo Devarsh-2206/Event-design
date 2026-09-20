@@ -1,63 +1,59 @@
 /* ==========================================================================
-   EDIT THIS FILE — nothing else needs changing for launch.
+   EDIT THIS FILE — nothing else needs changing.
    --------------------------------------------------------------------------
-   Every value below appears on the site. Fill one in and it replaces the
-   placeholder text automatically. Leave a value as "" and the page keeps the
-   safe placeholder already written into index.html.
+   Every value below appears on the site. Leave a value as "" and the page
+   keeps the safe placeholder already written into index.html, so nothing is
+   ever blank or broken.
    ========================================================================== */
 
 window.EVENT_CONFIG = {
 
   /* ---- 1. EVENT DETAILS ------------------------------------------------ */
 
-  // Shown in the hero vitals, the details card and the footer.
-  eventDate:   "31 October",          // e.g. "Saturday, 31 October 2026"
-  eventDay:    "",          // sub-line under the date on the details card
+  eventDate:   "31 October",
+  eventDay:    "",          // e.g. "Saturday"
 
-  // Short name used in the hero fact strip (keep it to a few words).
   venueShort:  "",          // e.g. "Gachibowli Stadium"
   venueCity:   " Hyderabad",
-
-  // Full address, shown in the footer.
-  venueFull:   "",          // e.g. "GMC Balayogi Athletic Stadium, Gachibowli, Hyderabad"
+  venueFull:   "",          // full address, shown in the footer
 
 
-  /* ---- 2. CONTACT ------------------------------------------------------ */
+  /* ---- 2. REGISTRATION & PAYMENT --------------------------------------- */
 
-  // Coordinator's number in international format, digits only, no "+".
-  // 91 is India. This powers the WhatsApp button on the enquiry form.
-  whatsapp:    "",          // e.g. "919876543210"
+  // Step 1 — the booking page schools fill in.
+  registrationLink:
+    "https://www.cofee.life/register/events/15-mins-non-stop-tollywood-dance-record/evnt_WWa4rsr7Gf2598",
 
-  phone:       "",          // e.g. "+91 98765 43210"  (shown in the footer)
-  email:       "",          // e.g. "events@snkdance.in"
+  // Step 2 — where schools actually pay.
+  //
+  // NOT SET YET. While this is empty, the "Pay now" button is hidden and a
+  // short line appears instead telling schools to message on WhatsApp for
+  // payment details, so nobody hits a dead button.
+  //
+  // If the registration page above already collects payment, put that same
+  // link here. Otherwise paste your payment page — Razorpay, PhonePe,
+  // Cashfree, Instamojo, a bank link, anything.
+  paymentLink: "",
 
-
-  /* ---- 3. PAYMENT ------------------------------------------------------ */
-
-  // Paste the payment page link from whichever provider you use —
-  // Razorpay Payment Page, PhonePe, Cashfree, Instamojo, a bank link, anything.
-  // The "Pay participation fee" button opens this in a new tab.
-  // Leave it "" and the button quietly points at the contact section instead,
-  // so the site never shows a dead payment button.
-  paymentLink: "",          // e.g. "https://rzp.io/l/your-page"
-
-  // UPI ID for the secondary "Pay by UPI" button. Leave "" to hide the button.
-  upiId:       "",          // e.g. "snkdance@okhdfcbank"
-  upiName:     "SNK Dance Company",
-
-  // Fee shown on the participation card. Keep the currency symbol.
+  // Fee shown on the card. Leave "" to keep "On request".
   price:       "",          // e.g. "₹350"
-  priceNote:   "",          // e.g. "Per student. Includes T-shirt, snacks and training."
+  priceNote:   "",
 
-  // Small print under the payment buttons.
-  payNote:     "",
+
+  /* ---- 3. CONTACT ------------------------------------------------------ */
+
+  // Coordinator's WhatsApp, digits only with country code, no "+".
+  // 91 is India. Powers step 3 and every "message us" link.
+  whatsapp:    "919912912722",
+
+  phone:       "99129 12722",
+  email:       "",          // e.g. "events@snkdance.in"
 
 
   /* ---- 4. GUESTS -------------------------------------------------------- */
 
-  // IMPORTANT: leave the "Invited · to be confirmed" tags in index.html in
-  // place until an appearance is confirmed in writing. Only remove a tag once
-  // you have that confirmation.
-  guest1Name:  "",          // celebrity choreographer
-  guest2Name:  ""           // chief guest
+  // Leave the "Invited · to be confirmed" tags in index.html in place until
+  // an appearance is confirmed in writing.
+  guest1Name:  "",
+  guest2Name:  ""
 };

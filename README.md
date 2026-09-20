@@ -45,7 +45,9 @@ Nothing else needs touching.
 |---|---|
 | `eventDate` | Shown in the hero badge and the footer |
 | `venueShort` / `venueFull` | Short name for the hero strip, full address for the footer |
-| `whatsapp` | Coordinator's number, digits only with country code (`919876543210`). Powers the enquiry form |
+| `registrationLink` | The booking page schools fill in (step 1) — already set |
+| `paymentLink` | Where schools pay (step 2) — **not set yet**, see below |
+| `whatsapp` | Coordinator's WhatsApp, digits with country code — already set to `919912912722` |
 | `phone` / `email` | Footer contact details |
 | `paymentLink` | Your payment page URL — Razorpay, PhonePe, Cashfree, Instamojo, a bank link, anything |
 | `upiId` | UPI ID for the secondary pay button |
@@ -57,18 +59,25 @@ the page, so the site never shows a blank or a broken button. The "Pay
 participation fee" button quietly points at the contact section until you add a
 real `paymentLink`, and the UPI button stays hidden until you add a `upiId`.
 
-### How the enquiry form works
+### How registering works
 
-There is no server and no database. When a school submits the form, it opens
-WhatsApp on the coordinator's number with all the details already typed into the
-message — they just press send. If no `whatsapp` is set but an `email` is, it
-falls back to opening a pre-filled email instead.
+Three steps on the page, in order:
 
-This is deliberate: it needs no hosting account, no monthly fee and nothing to
-maintain, and school enquiries land where coordinators already work. If you
-later want enquiries stored in a database or a spreadsheet, that needs a backend
-or a form service (Formspree, Google Forms, Netlify Forms) wired into
-`form()` in `assets/js/main.js`.
+1. **Register** — the button opens the booking page (`registrationLink`).
+2. **Pay** — the button opens `paymentLink`.
+3. **Send the receipt** — opens WhatsApp to the coordinator's number with a
+   message already written, asking for the school name and student count, and
+   reminding them to attach the receipt.
+
+**The payment link is not set yet.** While `paymentLink` is empty the "Pay now"
+button is hidden and a short line appears in its place telling schools to
+message on WhatsApp for payment details — so nobody ever hits a dead button.
+Fill `paymentLink` in and the button appears automatically. If the registration
+page already takes payment, put that same URL in both fields.
+
+**Seating is no longer shown.** The ground map section was removed: areas are
+marked out and assigned by the ground team on the day, so the page no longer
+promises a pre-allocated zone anywhere.
 
 ---
 
