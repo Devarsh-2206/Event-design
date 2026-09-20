@@ -1,8 +1,14 @@
 # Publishes the site to GitHub Pages on every push.
 #
 # The site is plain HTML/CSS/JS with no build step, so the whole repository is
-# uploaded as-is. `enablement: true` turns Pages on the first time this runs,
-# so there is nothing to switch on by hand in the repository settings.
+# uploaded as-is.
+#
+# ONE-TIME SETUP, and it has to be done by the repository owner:
+#   Settings -> Pages -> Build and deployment -> Source: GitHub Actions
+# The workflow's own token is not allowed to create the Pages site (GitHub
+# treats that as an admin action), so `enablement: true` below fails with
+# "Resource not accessible by integration" until the switch is flipped by
+# hand. Once it is on, every push deploys and nothing else is needed.
 name: Deploy to GitHub Pages
 
 on:

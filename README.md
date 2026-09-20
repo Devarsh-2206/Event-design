@@ -195,14 +195,24 @@ The site is plain HTML, CSS and JavaScript with no build step, and every path
 in it is relative. That means it runs from any static host, at a domain root or
 in a sub-folder, with nothing to configure.
 
-### It is already live
+### Going live — one switch, then it is automatic
 
-Every push to `claude/indian-book-records-dance-mvsmpa` deploys the site to
-GitHub Pages through `.github/workflows/pages.yml`. Nothing to run by hand.
+`.github/workflows/pages.yml` deploys the site to GitHub Pages on every push to
+`claude/indian-book-records-dance-mvsmpa`. It is committed and it runs, but it
+cannot finish until Pages is switched on once, which only the repository owner
+can do:
+
+> **Settings → Pages → Build and deployment → Source: _GitHub Actions_**
+
+GitHub does not let a workflow's own token create the Pages site — it counts as
+an admin action — so until that switch is flipped the run fails at the
+`configure-pages` step with *"Resource not accessible by integration"*. After
+it, push anything (or re-run the workflow from the Actions tab) and the site
+appears at:
 
 **https://devarsh-2206.github.io/Event-design/**
 
-That address is free and permanent, and it is fine to send to schools today.
+That address is free and permanent, and it is fine to send to schools.
 
 ### Free addresses with a shorter name
 
