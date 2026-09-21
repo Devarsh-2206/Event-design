@@ -76,12 +76,17 @@ promises a pre-allocated zone anywhere.
 
 Three items on the page make factual claims. Please confirm each one:
 
-1. **The guest names.** The brief listed the choreographer as "Shekar Master
-   **or** Johnny Master", which means neither is confirmed. Both guests are
-   therefore shown with an **"Invited · to be confirmed"** tag. Leave those tags
-   in place until you have a written confirmation. Announcing a public figure's
+1. **The guest names.** The choreographer is Shekar Master — Johnny Master was
+   in the original brief as an alternative and has since been ruled out, so he
+   no longer appears anywhere on the page. Both guests still carry an
+   **"Invited · to be confirmed"** tag. Leave those tags in place until you
+   have written confirmation from each of them. Announcing a public figure's
    attendance before they have agreed causes real problems, so this is worth
    being strict about.
+
+   Check the spelling of **Shekar Master** against how he writes it himself —
+   I have seen it both as "Shekar" and "Shekhar" and I am not certain which is
+   correct for him.
 
 2. **The record claim.** The page says "record attempt" throughout and never
    claims the record has been approved, sanctioned or awarded. Keep it that way

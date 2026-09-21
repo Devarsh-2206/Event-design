@@ -474,7 +474,10 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .guests { display: grid; grid-template-columns: repeat(auto-fit, minmax(262px, 1fr)); gap: clamp(1.25rem, 2.5vw, 2rem); }
 .guest { border: 1px solid var(--edge); background: var(--pit); transition: border-color .4s var(--ease), transform .4s var(--ease); }
 .guest:hover { border-color: var(--g3); transform: translateY(-4px); }
-.guest img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+/* Guest photos are cropped to 4:3. Real head-and-shoulders portraits are
+   usually framed with the face above centre, so bias the crop upwards —
+   centring it cuts foreheads off. No effect on the 4:3 placeholders. */
+.guest img { width: 100%; aspect-ratio: 4/3; object-fit: cover; object-position: 50% 30%; }
 .guest__b { padding: 1.3rem 1.35rem 1.5rem; }
 .guest__r { font-family: var(--mono); font-size: .57rem; letter-spacing: .2em; text-transform: uppercase; color: var(--g5); margin: 0; }
 .guest h3 { font-family: var(--display); font-weight: 700; font-size: 1.14rem; letter-spacing: .08em; text-transform: uppercase; margin: .65rem 0 .5rem; }
