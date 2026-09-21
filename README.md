@@ -2,7 +2,7 @@
 
 A single-page cinematic site for the SNK Dance Company · TYSUN mass dance event:
 a 15-minute non-stop Tollywood routine performed by 5,000+ school students in
-Hyderabad on **31 October**, staged as an Indian Book of Records attempt.
+Hyderabad on **31 October**, staged as an India Book of Records attempt.
 
 The page is written for the person who actually decides — a school principal or
 activity coordinator — so it opens on the spectacle and then answers the
@@ -44,12 +44,14 @@ Nothing else needs touching.
 | Field | What it is |
 |---|---|
 | `eventDate` | Shown in the hero badge and the footer |
-| `venueShort` / `venueFull` | Short name for the hero strip, full address for the footer |
+| `venueShort` / `venueFull` | Short name for the details row, full address for the footer |
 | `registrationLink` | The booking page schools fill in and pay on — already set |
 | `whatsapp` | Coordinator's WhatsApp, digits with country code — already set to `919912912722` |
 | `phone` / `email` | Footer contact details |
 | `price` / `priceNote` | The participation fee and what it covers |
-| `guest1Name` / `guest2Name` | Guest names, once confirmed |
+| `guest1Name` / `guest2Name` | Guest names — Malla Reddy and Shekar Master |
+| `instagram` | Handle without the `@` |
+| `officeAddress` | SNK's office. Not the venue — those are different places |
 
 Every field you leave as `""` keeps the safe placeholder already written into
 the page, so the site never shows a blank or a broken button.
@@ -76,17 +78,22 @@ promises a pre-allocated zone anywhere.
 
 Three items on the page make factual claims. Please confirm each one:
 
-1. **The guest names.** The choreographer is Shekar Master — Johnny Master was
-   in the original brief as an alternative and has since been ruled out, so he
-   no longer appears anywhere on the page. Both guests still carry an
-   **"Invited · to be confirmed"** tag. Leave those tags in place until you
-   have written confirmation from each of them. Announcing a public figure's
-   attendance before they have agreed causes real problems, so this is worth
-   being strict about.
+1. **The guest names and photographs.** Both guests are now named as chief
+   guests without a "to be confirmed" tag, because SNK's own event poster
+   announces them that way — Malla Reddy (Founder Chairman, Malla Reddy Group
+   of Institutions) and Shekar Master. Johnny Master was an alternative in the
+   original brief and has been ruled out; he appears nowhere on the page.
 
-   Check the spelling of **Shekar Master** against how he writes it himself —
-   I have seen it both as "Shekar" and "Shekhar" and I am not certain which is
-   correct for him.
+   The two portraits are **lifted from that poster**, where each is printed at
+   about 150 pixels. They have been upscaled and sharpened onto a plate that
+   matches the site, but no amount of processing invents detail that was never
+   captured. If SNK can supply the original photographs, swap them in:
+   `assets/images/guest-malla-reddy.jpg` and `guest-shekar-master.jpg`, 800x600.
+
+   Both photographs belong to whoever took them, and both men control the use
+   of their own likeness. Using them on the poster does not automatically cover
+   using them on a website — worth a sentence in writing from SNK confirming
+   they have that permission.
 
 2. **The record claim.** The page says "record attempt" throughout and never
    claims the record has been approved, sanctioned or awarded. Keep it that way

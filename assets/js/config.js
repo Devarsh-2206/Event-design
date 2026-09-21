@@ -13,9 +13,9 @@ window.EVENT_CONFIG = {
   eventDate:   "31 October",
   eventDay:    "",          // e.g. "Saturday"
 
-  venueShort:  "",          // e.g. "Gachibowli Stadium"
+  venueShort:  "Rampally X Road",
   venueCity:   " Hyderabad",
-  venueFull:   "",          // full address, shown in the footer
+  venueFull:   "Rampally X Road, Satyanarayana Colony, Hyderabad",
 
 
   /* ---- 2. REGISTRATION & PAYMENT --------------------------------------- */
@@ -26,8 +26,8 @@ window.EVENT_CONFIG = {
     "https://www.cofee.life/register/events/15-mins-non-stop-tollywood-dance-record/evnt_WWa4rsr7Gf2598",
 
   // Fee shown on the card. Leave "" to keep "On request".
-  price:       "",          // e.g. "₹350"
-  priceNote:   "",
+  price:       "\u20b9799",
+  priceNote:   "Per student, paid on the registration page.",
 
 
   /* ---- 3. CONTACT ------------------------------------------------------ */
@@ -41,11 +41,11 @@ window.EVENT_CONFIG = {
   email:       "snkdancecompany@gmail.com",
 
   // Instagram handle without the "@".
-  instagram:   "IBR_tollywood15",
+  instagram:   "IBR_tollywood15minutedance",
 
   // SNK Dance Company's OFFICE address — the organiser, not the event ground.
-  // The ground itself is still to be announced; that is venueShort/venueFull
-  // in section 1 above.
+  // The ground is venueShort/venueFull in section 1 above; the two are
+  // different places and schools plan their buses from the venue.
   officeAddress:
     "SNK Dance Company, 4th Floor, above KPN Fresh Super Market, Dammaiguda, Kapra, Hyderabad 500083",
 
