@@ -84,16 +84,15 @@ Three items on the page make factual claims. Please confirm each one:
    of Institutions) and Shekar Master. Johnny Master was an alternative in the
    original brief and has been ruled out; he appears nowhere on the page.
 
-   The two portraits are **lifted from that poster**, where each is printed at
-   about 150 pixels. They have been upscaled and sharpened onto a plate that
-   matches the site, but no amount of processing invents detail that was never
-   captured. If SNK can supply the original photographs, swap them in:
-   `assets/images/guest-malla-reddy.jpg` and `guest-shekar-master.jpg`, 800x600.
+   The portraits come from the photographs SNK supplied, kept in
+   `tools/source/`. `python3 tools/portraits.py` rebuilds the two card images
+   from them; to change a photo, replace the file in `tools/source/` and run
+   that again rather than editing `assets/images/` by hand.
 
    Both photographs belong to whoever took them, and both men control the use
-   of their own likeness. Using them on the poster does not automatically cover
-   using them on a website — worth a sentence in writing from SNK confirming
-   they have that permission.
+   of their own likeness. Appearing on the event poster does not automatically
+   cover a website — worth a sentence in writing from SNK confirming they have
+   that permission.
 
 2. **The record claim.** The page says "record attempt" throughout and never
    claims the record has been approved, sanctioned or awarded. Keep it that way
