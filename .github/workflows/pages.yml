@@ -1,8 +1,12 @@
 # Publishes the site to GitHub Pages on every push to the default branch.
 #
 # Pages serves the `gh-pages` branch, which holds only what is served:
-# index.html, assets/ and a .nojekyll marker. The repository's own root keeps
-# the README and tools/, which have no business on a public web server.
+# index.html, assets/, _headers and a .nojekyll marker. The repository's own
+# root keeps the README and tools/, which have no business on a public web
+# server.
+#
+# Cloudflare Pages can be pointed at the same `gh-pages` branch, so both hosts
+# serve an identical tree and neither needs a build step.
 #
 # Pushing that branch is also what switched Pages on in the first place — the
 # workflow token is not allowed to create a Pages site through the API (GitHub
@@ -31,7 +35,7 @@ jobs:
       - name: Assemble what gets served
         run: |
           mkdir -p ../site
-          cp -r index.html assets ../site/
+          cp -r index.html assets _headers ../site/
           touch ../site/.nojekyll
 
       - name: Push it to gh-pages

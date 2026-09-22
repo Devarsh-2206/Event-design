@@ -225,20 +225,31 @@ site through the API — GitHub counts that as an admin action, and
 Pushing a branch called `gh-pages` turns Pages on by itself, no admin rights
 needed, which is what happened here.
 
-### Free addresses with a shorter name
+### The shorter address: Cloudflare Pages
 
-If you want something that reads better out loud, these static hosts give you a
-permanent free address on their own domain. Connect this repository and each one
-redeploys on every push, exactly as Pages does.
+`devarsh-2206.github.io/Event-design/` works, but it carries a GitHub username
+and a repository name. Cloudflare Pages serves the same repository at a name you
+choose — **`tysun.pages.dev`** — for free, permanently, and it is faster than
+GitHub Pages from India.
 
-| Host | Address you get | Notes |
-|---|---|---|
-| Cloudflare Pages | `tysun.pages.dev` | Fastest of these from India. |
-| Netlify | `tysun.netlify.app` | Drag the folder onto the dashboard, or connect the repo. |
-| Vercel | `tysun.vercel.app` | Same idea. |
+Connecting it, once, in the Cloudflare dashboard (Workers & Pages → Create →
+Pages → Connect to Git):
 
-Pick the name carefully; it is what schools will read out. `tysun.pages.dev`
-reads far better than `event-design-final-v2.netlify.app`.
+| Setting | Value |
+|---|---|
+| Repository | `Devarsh-2206/Event-design` |
+| Project name | `tysun` — this is what becomes `tysun.pages.dev` |
+| Production branch | **`gh-pages`** |
+| Framework preset | None |
+| Build command | *leave empty* |
+| Build output directory | `/` |
+
+The production branch is `gh-pages` on purpose. That branch holds only the files
+that should be public — the README, `tools/` and the source photographs are not
+on it — and the workflow rebuilds it on every push, so Cloudflare redeploys by
+itself with no build step to configure.
+
+Both hosts can run at once. Nothing has to be switched off.
 
 ### Free *custom* domains — read this before chasing one
 
