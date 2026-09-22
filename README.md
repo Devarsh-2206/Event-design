@@ -206,24 +206,24 @@ The site is plain HTML, CSS and JavaScript with no build step, and every path
 in it is relative. That means it runs from any static host, at a domain root or
 in a sub-folder, with nothing to configure.
 
-### Going live — one switch, then it is automatic
-
-`.github/workflows/pages.yml` deploys the site to GitHub Pages on every push to
-`claude/indian-book-records-dance-mvsmpa`. It is committed and it runs, but it
-cannot finish until Pages is switched on once, which only the repository owner
-can do:
-
-> **Settings → Pages → Build and deployment → Source: _GitHub Actions_**
-
-GitHub does not let a workflow's own token create the Pages site — it counts as
-an admin action — so until that switch is flipped the run fails at the
-`configure-pages` step with *"Resource not accessible by integration"*. After
-it, push anything (or re-run the workflow from the Actions tab) and the site
-appears at:
+### It is live
 
 **https://devarsh-2206.github.io/Event-design/**
 
-That address is free and permanent, and it is fine to send to schools.
+Free, permanent, and fine to send to schools. Every push to
+`claude/indian-book-records-dance-mvsmpa` redeploys it through
+`.github/workflows/pages.yml`, so there is nothing to run by hand.
+
+How it is wired, in case it ever needs untangling: Pages serves the
+**`gh-pages`** branch, which holds only `index.html`, `assets/` and a
+`.nojekyll` marker — the README and `tools/` stay out of it. The workflow
+rebuilds that branch on each push and force-pushes it.
+
+It is set up this way because a workflow's own token cannot create a Pages
+site through the API — GitHub counts that as an admin action, and
+`actions/deploy-pages` fails with *"Resource not accessible by integration"*.
+Pushing a branch called `gh-pages` turns Pages on by itself, no admin rights
+needed, which is what happened here.
 
 ### Free addresses with a shorter name
 
