@@ -206,50 +206,47 @@ The site is plain HTML, CSS and JavaScript with no build step, and every path
 in it is relative. That means it runs from any static host, at a domain root or
 in a sub-folder, with nothing to configure.
 
-### It is live
+### It is live, in two places
 
-**https://devarsh-2206.github.io/Event-design/**
+**https://tysun-hyderabad.pages.dev** — Cloudflare Pages, the address to give out.
+Faster from India, and it carries no account name.
 
-Free, permanent, and fine to send to schools. Every push to
-`claude/indian-book-records-dance-mvsmpa` redeploys it through
-`.github/workflows/pages.yml`, so there is nothing to run by hand.
+**https://devarsh-2206.github.io/Event-design/** — GitHub Pages, the same site.
 
-How it is wired, in case it ever needs untangling: Pages serves the
-**`gh-pages`** branch, which holds only `index.html`, `assets/` and a
-`.nojekyll` marker — the README and `tools/` stay out of it. The workflow
-rebuilds that branch on each push and force-pushes it.
+Both serve the **`gh-pages`** branch, which holds only what should be public:
+`index.html`, `assets/`, `_headers` and a `.nojekyll` marker. The README,
+`tools/` and the source photographs are not on it.
 
-It is set up this way because a workflow's own token cannot create a Pages
-site through the API — GitHub counts that as an admin action, and
-`actions/deploy-pages` fails with *"Resource not accessible by integration"*.
-Pushing a branch called `gh-pages` turns Pages on by itself, no admin rights
-needed, which is what happened here.
+`.github/workflows/pages.yml` rebuilds that branch on every push to
+`claude/indian-book-records-dance-mvsmpa`, and both hosts redeploy themselves
+from it. Nothing to run by hand.
 
-### The shorter address: Cloudflare Pages
+The canonical URL and the share-preview tags in `index.html` name the Cloudflare
+address, so search engines treat the GitHub one as the same page rather than a
+duplicate.
 
-`devarsh-2206.github.io/Event-design/` works, but it carries a GitHub username
-and a repository name. Cloudflare Pages serves the same repository at a name you
-choose — **`tysun.pages.dev`** — for free, permanently, and it is faster than
-GitHub Pages from India.
+### Why the address is not `tysun.pages.dev`
 
-Connecting it, once, in the Cloudflare dashboard (Workers & Pages → Create →
-Pages → Connect to Git):
+`pages.dev` names are globally unique across every Cloudflare account, and
+`tysun` was taken in 2025 by a PhD student at Nottingham — Tongyue Sun. Asking
+for it yields a random suffix instead (`tysun-37v.pages.dev`), so the project is
+named `tysun-hyderabad`.
+
+To change the name later, note that a Pages project cannot be renamed: create a
+second project from the same repository and `gh-pages` branch, confirm it
+serves, then delete the old one. Check a candidate is free first by opening
+`<name>.pages.dev` in a browser — a Cloudflare "not found" page means nobody has
+it.
+
+The Cloudflare connection settings, for reference:
 
 | Setting | Value |
 |---|---|
 | Repository | `Devarsh-2206/Event-design` |
-| Project name | `tysun` — this is what becomes `tysun.pages.dev` |
 | Production branch | **`gh-pages`** |
 | Framework preset | None |
-| Build command | *leave empty* |
+| Build command | *empty* |
 | Build output directory | `/` |
-
-The production branch is `gh-pages` on purpose. That branch holds only the files
-that should be public — the README, `tools/` and the source photographs are not
-on it — and the workflow rebuilds it on every push, so Cloudflare redeploys by
-itself with no build step to configure.
-
-Both hosts can run at once. Nothing has to be switched off.
 
 ### Free *custom* domains — read this before chasing one
 
