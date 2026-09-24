@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One City. One Stage. One Record. | 5,000+ Students · 31 October · Hyderabad</title>
+<meta name="description" content="On 31 October, more than 5,000 school students take one ground in Hyderabad for a 15-minute non-stop Tollywood dance — an India Book of Records attempt. Free in-school training, full safety cover. Register your school.">
+<meta name="theme-color" content="#07060A">
+<!-- The address people are given. The site is served from two places —
+     tysun-hyderabad.pages.dev and devarsh-2206.github.io/Event-design/ — and
+     these lines name the Cloudflare one as the canonical of the two, so search
+     engines do not treat them as duplicates.
+     If the site ever moves to a domain of your own, change it on the four lines
+     below and nowhere else. They must stay FULL https:// URLs — WhatsApp,
+     Facebook and X will not fetch a share preview from a relative path, so a
+     forwarded link would show no picture. -->
+<link rel="canonical" href="https://tysun-hyderabad.pages.dev/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TYSUN · SNK Dance Company">
+<meta property="og:url" content="https://tysun-hyderabad.pages.dev/">
+<meta property="og:title" content="One City. One Stage. One Record.">
+<meta property="og:description" content="5,000+ students. 15 minutes, non-stop. 31 October, Hyderabad. An India Book of Records attempt.">
+<meta property="og:image" content="https://tysun-hyderabad.pages.dev/assets/images/og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="One city. One stage. Thousands of students. One dream. One record.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tysun-hyderabad.pages.dev/assets/images/og-cover.jpg">
+
+<link rel="icon" href="assets/images/mark.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/cinzel-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>document.documentElement.setAttribute("data-anim","on");</script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+<div class="grain" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<header class="hdr" id="hdr">
+  <div class="wrap hdr__in">
+    <a class="brand" href="#top" aria-label="TYSUN — home">
+      <img src="assets/images/mark.svg" alt="" width="32" height="32">
+      <span><b>TYSUN</b><span>SNK Dance Company</span></span>
+    </a>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="#scale">The Record</a>
+      <a href="#why">Why</a>
+      <a href="#training">Training</a>
+      <a href="#timeline">Event Day</a>
+      <a href="#safety">Safety</a>
+      <a href="#details">Details</a>
+      <a href="#faq">FAQ</a>
+      <a class="btn btn--gold" href="#register">Register school</a>
+    </nav>
+    <a class="btn btn--gold hdr__cta" href="#register">Register your school</a>
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="nav" aria-label="Open menu"><i></i></button>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- 1 ─────────────────────────────────────────────── HERO -->
+<section class="hero" id="top">
+  <div class="hero__stage" aria-hidden="true"><canvas id="stage"></canvas></div>
+  <span class="bar bar--t" aria-hidden="true"></span>
+  <span class="bar bar--b" aria-hidden="true"></span>
+
+  <div class="wrap">
+    <p class="slate">
+      <span class="rec" aria-hidden="true"></span>
+      India Book of Records &nbsp;·&nbsp; <b>Attempt</b>
+    </p>
+
+    <h1 class="t1">
+      <span class="l"><span>One City. One Stage.</span></span>
+      <span class="l"><span>Thousands Of Students.</span></span>
+      <span class="l"><span class="metal sheen">One Dream. One Record.</span></span>
+    </h1>
+
+    <p class="lede hero__sub">
+      On 31 October, more than five thousand school students take a single ground in Hyderabad
+      and perform one <strong>Tollywood</strong> routine for fifteen minutes without stopping —
+      one choreography, one formation, one take.
+    </p>
+
+    <div class="hero__cta">
+      <a class="btn btn--gold" href="#register">Register your school</a>
+      <a class="btn btn--wire" href="#scale">See the scale</a>
+    </div>
+
+    <dl class="vitals">
+      <div class="vital"><dt>Students</dt><dd>5,000+</dd></div>
+      <div class="vital"><dt>Non-stop dance</dt><dd>15 Minutes</dd></div>
+      <div class="vital"><dt>Date</dt><dd data-cfg="eventDate">31 October</dd></div>
+      <div class="vital"><dt>City</dt><dd>Hyderabad</dd></div>
+    </dl>
+  </div>
+
+  <p class="cue" aria-hidden="true"><i></i>Scroll</p>
+</section>
+
+<!-- 2 ─────────────────────────────────────── RECORD / SCALE -->
+<section class="scale" id="scale" aria-labelledby="scale-h">
+  <h2 id="scale-h" class="sr">The scale of the attempt</h2>
+  <div class="scale__pin" id="scalePin">
+    <canvas class="scale__canvas" id="crowd" aria-hidden="true"></canvas>
+    <div class="scale__read">
+      <p class="scale__n metal" id="scaleN">1</p>
+      <p class="scale__l" id="scaleL">Student</p>
+      <p class="scale__c" id="scaleC">It starts with one.</p>
+    </div>
+  </div>
+  <p class="sr">The attempt brings together more than 5,000 students from across Hyderabad, performing a single 15-minute Tollywood routine simultaneously.</p>
+</section>
+
+<!-- 3 ──────────────────────────────────────── WHY IT MATTERS -->
+<section class="band" id="why">
+  <div class="wrap">
+    <div class="head">
+      <p class="kicker rv">Why this matters</p>
+      <h2 class="t2 rv"><span class="metal">More than a dance programme.</span></h2>
+      <p class="lede rv">
+        A child who has stood in a formation of five thousand and held their count carries
+        something afterwards that a classroom cannot hand them. That is the actual product here —
+        the record is what makes it unforgettable.
+      </p>
+    </div>
+
+    <div class="why__grid">
+      <div class="why__c rv"><p class="why__n">For the student</p>
+        <h3>A day they will describe for years</h3>
+        <p>Weeks of rehearsal, then fifteen minutes in front of thousands. Most students never get a stage this size. The ones who do remember the discipline it took, not just the noise.</p>
+      </div>
+      <div class="why__c rv"><p class="why__n">For the school</p>
+        <h3>Visible on a city stage</h3>
+        <p>Your students perform under your school's name alongside every other participating school in Hyderabad, with photography, video and record documentation to show for it.</p>
+      </div>
+      <div class="why__c rv"><p class="why__n">For the parent</p>
+        <h3>Confidence, built in public</h3>
+        <p>Fitness, timing, teamwork and the nerve to perform — taught by professional instructors on campus, at no cost to the family beyond participation.</p>
+      </div>
+      <div class="why__c rv"><p class="why__n">For the city</p>
+        <h3>One ground, many schools</h3>
+        <p>Students who would never otherwise share a stage stand in the same formation, to the same count, for the same fifteen minutes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 ────────────────────────── LEARN → PRACTISE → SYNC → PERFORM -->
+<section class="band" id="training">
+  <div class="wrap">
+    <div class="head">
+      <p class="kicker rv">Before the day</p>
+      <h2 class="t2 rv">Students don't need<br><span class="metal">to know how to dance.</span></h2>
+      <p class="lede rv">
+        Our instructors come to your campus for seven to ten days and teach the routine from zero,
+        on a schedule built around your timetable rather than against it.
+      </p>
+    </div>
+
+    <ol class="stages">
+      <li class="stg rv"><span class="stg__bar" aria-hidden="true"></span>
+        <p class="stg__k">Stage 01</p><h3><span class="metal">Learn</span></h3>
+        <p>The choreography is broken into short sections and taught one section at a time.</p>
+      </li>
+      <li class="stg rv"><span class="stg__bar" aria-hidden="true"></span>
+        <p class="stg__k">Stage 02</p><h3><span class="metal">Practise</span></h3>
+        <p>Repetition until the movement is muscle memory. Trainers correct posture and timing in place.</p>
+      </li>
+      <li class="stg rv"><span class="stg__bar" aria-hidden="true"></span>
+        <p class="stg__k">Stage 03</p><h3><span class="metal">Synchronise</span></h3>
+        <p>Counts, cues and transitions locked to the track so every school lands on the same beat.</p>
+      </li>
+      <li class="stg rv"><span class="stg__bar" aria-hidden="true"></span>
+        <p class="stg__k">Stage 04</p><h3><span class="metal">Perform</span></h3>
+        <p>Full run-throughs in your school's own formation, so the day itself is a repeat, not a first time.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- 5 ──────────────────────────────────────── EVENT-DAY TIMELINE -->
+<section class="band" id="timeline">
+  <div class="wrap">
+    <div class="head">
+      <p class="kicker rv">31 October</p>
+      <h2 class="t2 rv"><span class="metal">The run of show.</span></h2>
+      <p class="lede rv">
+        Indicative timings. Your school's exact arrival slot and departure sequence are issued on
+        the final call sheet before the event.
+      </p>
+    </div>
+
+    <div class="tl" id="tl">
+      <span class="tl__spine" aria-hidden="true"></span>
+      <span class="tl__fill" id="tlFill" aria-hidden="true"></span>
+
+      <article class="ev rv"><p class="ev__t">09:00 – 11:30</p>
+        <h3>Arrival &amp; bus parking</h3>
+        <p class="ev__d">Buses arrive in their allotted slot and are directed to a reserved bay. Students get down under their own teachers' supervision — no school moves without its staff.</p></article>
+
+      <article class="ev rv"><p class="ev__t">11:30 – 12:15</p>
+        <h3>Move to your area</h3>
+        <p class="ev__d">Each school is walked to its marked section behind a coloured flag marker along barricaded routes, then placed row by row in final positions.</p></article>
+
+      <article class="ev rv"><p class="ev__t">12:15 – 12:45</p>
+        <h3>Line-up &amp; warm-up</h3>
+        <p class="ev__d">A trainer is assigned per row block. Warm-up is led from the main stage with sub-stage trainers mirroring, so the back rows read the same counts as the front.</p></article>
+
+      <article class="ev rv"><p class="ev__t">12:45 – 13:10</p>
+        <h3>Welcome &amp; trial sync</h3>
+        <p class="ev__d">Anchors open the programme and brief the ground on the attempt. A one-minute trial run confirms every part of the ground is hearing the track and reading the stage.</p></article>
+
+      <article class="ev rv"><p class="ev__t">13:10 – 13:30</p>
+        <h3>Chief guest arrival</h3>
+        <p class="ev__d">Invited dignitaries are received and escorted to the guest enclosure. Students hold formation throughout — no movement, no regrouping.</p></article>
+
+      <article class="ev ev--peak rv"><p class="ev__t">13:30 – 13:45</p>
+        <h3><span class="metal">The attempt — 15 minutes, non-stop</span></h3>
+        <p class="ev__d">Countdown, entry music, and the full ground performs as one. Drone and ground cameras record continuously for the record submission. The routine closes on a freeze pose held for five seconds.</p></article>
+
+      <article class="ev rv"><p class="ev__t">13:45 – 14:15</p>
+        <h3>Record proceedings</h3>
+        <p class="ev__d">Attendance records, participant documentation, photography and videography are completed with the adjudication process for the submission.</p></article>
+
+      <article class="ev rv"><p class="ev__t">14:15 – 14:50</p>
+        <h3>Refreshments, group by group</h3>
+        <p class="ev__d">Snack boxes and water are distributed group by group so no school has to move through another. Teachers and volunteers keep each school together.</p></article>
+
+      <article class="ev rv"><p class="ev__t">14:50 – 16:00</p>
+        <h3>Headcount &amp; departure</h3>
+        <p class="ev__d">Teachers complete a final headcount against their attendance list. Schools are called group by group, walked back along barricaded routes, and buses depart in a planned exit sequence.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- 7 ─────────────────────────────────────────────── SAFETY -->
+<section class="band" id="safety">
+  <div class="wrap">
+    <div class="head">
+      <p class="kicker rv">Safety &amp; event management</p>
+      <h2 class="t2 rv">The part principals<br><span class="metal">ask about first.</span></h2>
+      <p class="lede rv">
+        A ground with thousands of children on it is a logistics problem before it is a performance.
+        These arrangements are planned and staffed before the first bus is allowed in.
+      </p>
+    </div>
+
+    <div class="safe__grid">
+      <div class="safe rv"><div class="safe__i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5.5v6c0 4.9 3.4 9.2 8 10.5 4.6-1.3 8-5.6 8-10.5v-6L12 2Z"/><path d="M12 8.5v6M9 11.5h6"/></svg></div>
+        <h3>Doctors &amp; ambulance on site</h3><p>Certified doctors and a stationed ambulance for the full duration, with marked first-aid points reachable from anywhere on the ground.</p></div>
+      <div class="safe rv"><div class="safe__i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="9.5" cy="7" r="3.5"/><path d="M17 11l2 2 4-4"/></svg></div>
+        <h3>Security &amp; crowd management</h3><p>Professional bouncers and a trained volunteer team manage barricaded entry, movement routes and exit, with police permission secured in advance.</p></div>
+      <div class="safe rv"><div class="safe__i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.7S5.5 9.3 5.5 14a6.5 6.5 0 0 0 13 0c0-4.7-6.5-11.3-6.5-11.3Z"/></svg></div>
+        <h3>Water &amp; washrooms</h3><p>Drinking-water stations positioned around the ground, plus mobile washrooms in addition to the venue's existing facilities.</p></div>
+      <div class="safe rv"><div class="safe__i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3M16 3v3M3.5 9.5h17"/><rect x="3.5" y="5.5" width="17" height="15"/><path d="M8.5 14.5l2.2 2.2 4.3-4.3"/></svg></div>
+        <h3>Fire safety &amp; clear routes</h3><p>Fire-safety equipment on standby, marked entry and exit routes, and coordination points kept clear of student formations.</p></div>
+      <div class="safe rv"><div class="safe__i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="15" height="11"/><path d="M17.5 9.5h2.6l1.4 3v4h-4z"/><circle cx="7" cy="18.5" r="1.8"/><circle cx="17.5" cy="18.5" r="1.8"/></svg></div>
+        <h3>Bus-to-bus accountability</h3><p>Students move school-wise, never individually. Headcount is taken before departure and every child boards the bus they arrived on.</p></div>
+      <div class="safe rv"><div class="safe__i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20.5v-1.8a4.2 4.2 0 0 1 4.2-4.2h3.6a4.2 4.2 0 0 1 4.2 4.2v1.8"/><circle cx="9" cy="7.5" r="3.5"/><path d="M17.5 20.5v-1.8a4.2 4.2 0 0 0-2.4-3.8M15.5 4.3a3.5 3.5 0 0 1 0 6.4"/></svg></div>
+        <h3>Your teachers stay with your students</h3><p>School coordinators remain with their own group the entire time. Our volunteers assist them — they do not replace them.</p></div>
+    </div>
+
+    <div class="oath rv">
+      <p class="oath__n metal">1:1</p>
+      <p><strong>Every student arrives with their school and leaves with their school.</strong>
+      Schools are called group by group for departure and volunteers walk each one to its own bus.
+      Nothing about the day asks a child to find their own way anywhere.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 8 ──────────────────────────────────── PARTICIPATION KIT -->
+<section class="band" id="kit">
+  <div class="wrap">
+    <div class="head">
+      <p class="kicker rv">What every student gets</p>
+      <h2 class="t2 rv"><span class="metal">The participation kit.</span></h2>
+      <p class="lede rv">Issued to each registered student through their school — nothing for a family to buy or arrange on the day.</p>
+    </div>
+
+    <div class="kit">
+      <div class="kit__i rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 3 5 4.8 3 9l3 1.5V21h12V10.5L21 9l-2-4.2L15.5 3a3.5 3.5 0 0 1-7 0Z"/></svg>
+        <b>Event T-shirt</b><span>Worn by every participant, so the formation reads as one from the stage and from the air.</span></div>
+      <div class="kit__i rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h6M10 2v2.5L7.5 9.5A4 4 0 0 0 7 11.4V19a3 3 0 0 0 3 3h4a3 3 0 0 0 3-3v-7.6a4 4 0 0 0-.5-1.9L14 4.5V2"/><path d="M7.2 14h9.6"/></svg>
+        <b>Water &amp; snack box</b><span>Sealed drinking water and a packed snack, distributed group by group after the performance.</span></div>
+      <div class="kit__i rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14"/><path d="M3 8h18M8 12h5M8 15h8"/></svg>
+        <b>School ID band</b><span>Carries the school name, so any volunteer can return a student to their own group.</span></div>
+      <div class="kit__i rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5.5"/><path d="M8.5 13.8 7 22l5-2.6L17 22l-1.5-8.2"/></svg>
+        <b>Participation certificate</b><span>Issued per student in the school's name after the record proceedings are completed.</span></div>
+      <div class="kit__i rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5h13v9h-13z"/><path d="M15.5 10.5 21.5 7v10l-6-3.5z"/></svg>
+        <b>Event photography</b><span>Ground and aerial coverage of the full formation, shared with participating schools afterwards.</span></div>
+      <div class="kit__i rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 8h18M5.5 8c0-2.8 2.9-5 6.5-5s6.5 2.2 6.5 5"/><path d="M5 8v9a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V8"/></svg>
+        <b>Training, at your school</b><span>Seven to ten days of instruction on your own campus, included — students need no prior dance experience.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 ─────────────────────────────────────────────── GUESTS -->
+<section class="band" id="guests">
+  <div class="wrap">
+    <div class="head">
+      <p class="kicker rv">On the day</p>
+      <h2 class="t2 rv"><span class="metal">Chief guests.</span></h2>
+      <p class="lede rv">Alongside other renowned choreographers and celebrities, joining the ground on 31 October.</p>
+    </div>
+
+    <div class="guests">
+      <article class="guest rv"><img src="assets/images/guest-malla-reddy.jpg" alt="Malla Reddy" width="800" height="600" loading="lazy">
+        <div class="guest__b"><p class="guest__r">Chief guest</p>
+          <h3 data-cfg="guest1Name">Malla Reddy</h3>
+          <p class="guest__d">Founder Chairman, Malla Reddy Group of Institutions. Addresses the ground before the attempt begins.</p></div></article>
+
+      <article class="guest rv"><img src="assets/images/guest-shekar-master.jpg" alt="Shekar Master" width="800" height="600" loading="lazy">
+        <div class="guest__b"><p class="guest__r">Chief guest</p>
+          <h3 data-cfg="guest2Name">Shekar Master</h3>
+          <p class="guest__d">Renowned choreographer and dance icon, leading the stage and setting the routine's final counts.</p></div></article>
+
+      <article class="guest rv"><img src="assets/images/guest-3.svg" alt="" width="640" height="480" loading="lazy">
+        <div class="guest__b"><p class="guest__r">Adjudication</p>
+          <h3>Record officials</h3>
+          <p class="guest__d">Official proceedings, participant documentation and verification completed on the ground immediately after the performance.</p>
+          <span class="tbc">Process completed on the day</span></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- 10 ──────────────────────────────────────── EVENT DETAILS -->
+<section class="band" id="details">
+  <div class="wrap">
+    <div class="head">
+      <p class="kicker rv">Event details</p>
+      <h2 class="t2 rv"><span class="metal">The essentials.</span></h2>
+    </div>
+
+    <dl class="details rv">
+      <div class="detail"><dt>Date</dt><dd data-cfg="eventDate">31 October<small data-cfg="eventDay">Day to be confirmed on the final call sheet.</small></dd></div>
+      <div class="detail"><dt>Venue</dt><dd data-cfg="venueShort">Rampally X Road<small>Satyanarayana Colony, Hyderabad. Arrival slots and parking bays issued with the call sheet.</small></dd></div>
+      <div class="detail"><dt>Reporting</dt><dd>09:00 – 11:30<small>Arrival window. Each school receives its own slot inside this window.</small></dd></div>
+      <div class="detail"><dt>The attempt</dt><dd>13:30<small>15 minutes, non-stop. Students hold formation from 12:15.</small></dd></div>
+      <div class="detail"><dt>Departure</dt><dd>By 16:00<small>Group by group, after headcount. Buses leave in a planned exit sequence.</small></dd></div>
+      <div class="detail"><dt>Eligibility</dt><dd>School students<small>No prior dance experience needed. No fixed minimum or maximum per school.</small></dd></div>
+    </dl>
+
+    <div class="contact rv">
+      <p class="contact__k">Organiser</p>
+      <div class="contact__g">
+        <div class="contact__i">
+          <span>Office</span>
+          <p data-cfg="officeAddress">SNK Dance Company, Hyderabad</p>
+        </div>
+        <div class="contact__i">
+          <span>Call</span>
+          <p>
+            <a data-cfg-href="telLink" data-cfg="phoneDisplay" href="#contact">+91 99129 12722</a>
+            <a data-cfg-href="telAltLink" data-cfg="phoneAltDisplay" href="#contact">+91 74168 31888</a>
+          </p>
+        </div>
+        <div class="contact__i">
+          <span>Email</span>
+          <p><a data-cfg-href="mailtoLink" data-cfg="emailDisplay" href="#contact">Email to be added</a></p>
+        </div>
+        <div class="contact__i">
+          <span>Instagram</span>
+          <p><a data-cfg-href="instagramLink" data-cfg="instagramDisplay" href="#contact" rel="noopener">Instagram to be added</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 ─────────────────────────────────────────────── FAQ -->
+<section class="band" id="faq">
+  <div class="wrap">
+    <div class="head">
+      <p class="kicker rv">Questions from schools</p>
+      <h2 class="t2 rv"><span class="metal">What principals ask us.</span></h2>
+    </div>
+
+    <div class="qa rv">
+      <details><summary>Do students need previous dance experience?</summary><div class="a"><p>No. The routine is choreographed to be learnable from zero and taught in short sections over seven to ten days. Every student who attends the training sessions will be able to perform it.</p></div></details>
+      <details><summary>Will this disturb our academic timetable?</summary><div class="a"><p>The training schedule is fixed with your school, around your existing timetable. Most schools use their activity or games period. Students continue attending all regular classes through the training window.</p></div></details>
+      <details><summary>How many students can we send?</summary><div class="a"><p>There is no fixed minimum or maximum per school. Tell us your approximate number when you register so the ground team can plan space for you. The number can be adjusted until the final school list is locked.</p></div></details>
+      <details><summary>Who supervises the students at the venue?</summary><div class="a"><p>Your own teachers and coordinators, throughout. They travel with the group, stay with it on the ground, and complete the headcount before departure. Our volunteers assist with movement and positioning — they do not take over supervision.</p></div></details>
+      <details><summary>What medical arrangements are in place?</summary><div class="a"><p>Certified doctors and a stationed ambulance are on site for the full duration, with a marked first-aid point. Please inform your coordinator in advance about any student with a medical condition our team should know about.</p></div></details>
+      <details><summary>Is transport to the venue included?</summary><div class="a"><p>No — schools arrange their own buses. We allot your arrival slot and a reserved parking bay, and volunteers guide your buses in and out along a planned sequence.</p></div></details>
+      <details><summary>How is the record attempt verified?</summary><div class="a"><p>The performance is documented with aerial and ground-level video, participant attendance records and event photography. The official proceedings are completed on the ground immediately after the performance, with the relevant record authorities.</p></div></details>
+      <details><summary>What happens if the event is postponed?</summary><div class="a"><p>If the date changes for any reason, your coordinator informs your school directly and the training schedule is re-planned with you. Please confirm the postponement and refund terms in writing with our coordinator before making any payment.</p></div></details>
+    </div>
+  </div>
+</section>
+
+<!-- 12 ────────────────────────────────────────── REGISTRATION -->
+<section class="band reg" id="register">
+  <div class="wrap">
+    <div class="head" style="margin-bottom:clamp(2rem,4vw,3rem)">
+      <p class="kicker rv">Register your school</p>
+      <h2 class="t2 rv"><span class="metal">Three steps. That's it.</span></h2>
+      <p class="lede rv">
+        Registration and payment both happen on the same booking page. Once you have paid, send us
+        the receipt on WhatsApp and your school is confirmed.
+      </p>
+      <p class="lede rv" style="margin-top:1rem">
+        Registration closes <strong>23 October</strong>. Fees are not refundable — please
+        check your school's schedule and numbers before you pay. Full terms in our
+        <a href="refunds.html" style="color:var(--g5)">Refund &amp; Cancellation Policy</a>.
+      </p>
+    </div>
+
+    <div class="reg__in">
+      <ol class="flow">
+        <li class="flow__s rv">
+          <span class="flow__n">1</span>
+          <div class="flow__b">
+            <h3>Fill the registration form</h3>
+            <p>School name, coordinator, contact number and roughly how many students. Two minutes, on our booking page.</p>
+            <a class="btn btn--gold" id="regbtn" data-cfg-href="registrationLink" href="#contact" rel="noopener">
+              Open the registration form
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3h7v7M13 3 3.5 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </li>
+
+        <li class="flow__s rv">
+          <span class="flow__n">2</span>
+          <div class="flow__b">
+            <h3>Pay on the same page</h3>
+            <p data-cfg="payStep">Payment is taken on the registration page itself, right after the form — for the number of students you entered. Keep the receipt or screenshot; you need it for step three.</p>
+            <p class="flow__note">Closed the page before paying? Reopen the registration link above and finish there.</p>
+          </div>
+        </li>
+
+        <li class="flow__s rv">
+          <span class="flow__n">3</span>
+          <div class="flow__b">
+            <h3>Send the receipt on WhatsApp</h3>
+            <p>Send your payment receipt to <a class="flow__num" data-cfg-href="waLink" data-cfg="phoneDisplay" href="#contact">99129 12722</a> with your school name. We confirm your place and share the training schedule.</p>
+            <a class="btn btn--wire" id="wabtn" data-cfg-href="waReceiptLink" href="#contact" rel="noopener">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 .9a7 7 0 0 0-6 10.6L1 15.4l4-1a7 7 0 1 0 3-13.5Zm0 12.8a5.8 5.8 0 0 1-2.9-.8l-.2-.1-2.4.6.6-2.3-.1-.2a5.8 5.8 0 1 1 5 2.8Zm3.2-4.3c-.2-.1-1-.5-1.2-.6s-.3 0-.4.1l-.5.7c-.1.1-.2.2-.4 0a4.7 4.7 0 0 1-2.3-2c-.2-.3.1-.3.3-.7v-.3l-.6-1.3c-.1-.3-.3-.3-.4-.3h-.4a.8.8 0 0 0-.5.3 2.3 2.3 0 0 0-.7 1.7A4 4 0 0 0 5 8.2a9 9 0 0 0 3.4 3 3.4 3.4 0 0 0 2.1.4 1.9 1.9 0 0 0 1.2-.9 1.5 1.5 0 0 0 .1-.8c0-.1-.2-.2-.4-.3Z"/></svg>
+              Send receipt on WhatsApp
+            </a>
+          </div>
+        </li>
+      </ol>
+
+      <aside class="pack rv">
+        <p class="pack__k">What your school gets</p>
+        <p class="pack__p"><span data-cfg="price">On request</span>
+          <small data-cfg="priceNote">Per-student participation fee. The exact amount is shown on the registration page.</small></p>
+        <ul>
+          <li><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5 6.3 12 13 4.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> 7–10 days of in-school training</li>
+          <li><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5 6.3 12 13 4.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Event T-shirt, water and snack box</li>
+          <li><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5 6.3 12 13 4.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> School ID band and participation certificate</li>
+          <li><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5 6.3 12 13 4.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Volunteers, medical cover and full safety arrangements</li>
+          <li><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5 6.3 12 13 4.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Inclusion in the record documentation</li>
+        </ul>
+        <div class="pay">
+          <a class="btn btn--wire" data-cfg-href="waLink" href="#contact" rel="noopener">Questions? Message us</a>
+        </div>
+        <p class="paynote">Seating and formation are arranged by our ground team on the day — nothing for your school to book.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="ft" id="contact">
+  <div class="wrap">
+    <div class="ft__t">
+      <div>
+        <a class="brand" href="#top" aria-label="TYSUN — home">
+          <img src="assets/images/mark.svg" alt="" width="32" height="32">
+          <span><b>TYSUN</b><span>SNK Dance Company</span></span>
+        </a>
+        <p class="ft__l">One city, one stage, thousands of students and one record attempt — 31 October, Hyderabad.</p>
+      </div>
+      <div><h4>Event</h4><ul>
+        <li><a href="#scale">The record</a></li><li><a href="#why">Why it matters</a></li>
+        <li><a href="#training">Training</a></li><li><a href="#timeline">Run of show</a></li></ul></div>
+      <div><h4>Schools</h4><ul>
+        <li><a href="#safety">Safety</a></li>
+        <li><a href="#kit">Participation kit</a></li><li><a href="#register">Register</a></li></ul></div>
+      <div><h4>Contact</h4><ul>
+        <li><a data-cfg-href="telLink" data-cfg="phoneDisplay" href="#contact">Phone to be added</a></li>
+        <li><a data-cfg-href="telAltLink" data-cfg="phoneAltDisplay" href="#contact">Second line to be added</a></li>
+        <li><a data-cfg-href="mailtoLink" data-cfg="emailDisplay" href="#contact">Email to be added</a></li>
+        <li><a data-cfg-href="instagramLink" data-cfg="instagramDisplay" href="#contact" rel="noopener">Instagram to be added</a></li>
+        <li><span class="ft__addr" data-cfg="officeAddress">SNK Dance Company, Hyderabad</span></li></ul></div>
+    </div>
+    <div class="ft__legal">
+      <a href="terms.html">Terms &amp; Conditions</a>
+      <a href="refunds.html">Refund &amp; Cancellation</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="media.html">Photography &amp; Media</a>
+    </div>
+    <div class="ft__b">
+      <span>© <span id="yr">2026</span> SNK Dance Company · TYSUN</span>
+      <span>Record attempt · Hyderabad, Telangana</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
