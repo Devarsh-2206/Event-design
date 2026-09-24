@@ -35,7 +35,7 @@ jobs:
       - name: Assemble what gets served
         run: |
           mkdir -p ../site
-          cp -r index.html assets _headers ../site/
+          cp -r ./*.html assets _headers ../site/
           touch ../site/.nojekyll
 
       - name: Push it to gh-pages
