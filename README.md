@@ -1,8 +1,8 @@
 # ONE CITY. ONE STAGE. ONE RECORD.
 
 A single-page cinematic site for the SNK Dance Company · TYSUN mass dance event:
-a 15-minute non-stop Tollywood routine performed by 5,000+ school students in
-Hyderabad on **31 October**, staged as an India Book of Records attempt.
+a 15-minute non-stop Tollywood routine performed by 3,000+ school students in
+Hyderabad on **6 November**, staged as an India Book of Records attempt.
 
 The page is written for the person who actually decides — a school principal or
 activity coordinator — so it opens on the spectacle and then answers the
@@ -105,12 +105,13 @@ Three items on the page make factual claims. Please confirm each one:
    sheet once it exists. They are in `index.html`, in the
    `<section class="band" id="timeline">` block.
 
-4. **The year on the date.** The brief said "31 October" without a year. The
-   page shows exactly that, and `eventDate` in the config is set to
-   `"31 October"`. 31 October 2026 falls on a Saturday. Set the full date in
-   the config once you confirm it.
+4. **The date moved.** The event was 31 October and is now **Friday 6 November
+   2026**. It is set in `config.js` as `eventDate` plus `eventDay`, and written
+   into the legal pages, the page title, the share cover and the WhatsApp
+   message templates. If it moves again, grep for `6 November` and `6 NOV` —
+   the share cover is an SVG that has to be re-exported to JPEG at 1200x630.
 
-Other numbers on the page — 5,000+ students, 15 minutes, 7–10 days of training,
+Other numbers on the page — 3,000+ students, 15 minutes, 7–10 days of training,
 four sub-stages — come straight from the brief.
 
 ---
@@ -169,8 +170,8 @@ assets/
   **IBM Plex Mono** marks anything operational — zone codes, timings, labels —
   so the run of show reads like the call sheet it is.
 - **The scale sequence is the signature.** A pinned frame where the crowd
-  multiplies from one silhouette to five thousand as you scroll, with the count
-  climbing beside it. It is the only honest way to put "5,000" on a screen:
+  multiplies from one silhouette to three thousand as you scroll, with the count
+  climbing beside it. It is the only honest way to put "3,000" on a screen:
   make the reader watch it fill up.
 - **The silhouettes are drawn, not dotted.** Filled bodies with head, torso and
   limbs, tall and narrow — stroked stick figures read as clip-art at any size,
@@ -186,7 +187,7 @@ assets/
 
 - GSAP + ScrollTrigger drive the cinematic passages, loaded from cdnjs. **Every
   one has a vanilla fallback**: if that CDN is blocked (school networks often
-  are), reveals, the timeline and the 1 → 5,000 scale sequence all still run.
+  are), reveals, the timeline and the 1 → 3,000 scale sequence all still run.
   Tested with GSAP present and absent.
 - All text meets WCAG AA contrast (4.5:1 body, 3:1 large) in both the dark and
   cream sections.

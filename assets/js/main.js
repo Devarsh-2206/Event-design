@@ -43,7 +43,7 @@
     var d = {
       telLink:    c.phone ? 'tel:' + c.phone.replace(/[^\d+]/g, '') : '',
       mailtoLink: c.email ? 'mailto:' + c.email + '?subject=' +
-                  encodeURIComponent('School participation — 31 October record attempt') : '',
+                  encodeURIComponent('School participation — 6 November record attempt') : '',
       phoneDisplay: c.phone, emailDisplay: c.email,
       telAltLink: c.phoneAlt ? 'tel:' + c.phoneAlt.replace(/[^\d+]/g, '') : '',
       phoneAltDisplay: c.phoneAlt,
@@ -52,11 +52,11 @@
       officeAddress: c.officeAddress,
       registrationLink: c.registrationLink,
       // General enquiry.
-      waLink: waUrl('Hi, I would like to ask about the 31 October record attempt for our school.'),
+      waLink: waUrl('Hi, I would like to ask about the 6 November record attempt for our school.'),
       // Step 3: the message already names what is attached, so a coordinator
       // can match a receipt to a school without asking.
       waReceiptLink: waUrl(
-        'Hi, sending our payment receipt for the 31 October record attempt.\n\n' +
+        'Hi, sending our payment receipt for the 6 November record attempt.\n\n' +
         'School: \nNumber of students: \n\n(Please attach the receipt or screenshot to this message.)')
     };
     function val(k) {
@@ -153,8 +153,8 @@
 
   /* ======================================================================
      2 · Scale — the signature. A pinned frame where the crowd multiplies
-     from one silhouette to five thousand as you scrub through it. This is
-     the only honest way to show "5,000" on a screen: make the reader watch
+     from one silhouette to three thousand as you scrub through it. This is
+     the only honest way to show "3,000" on a screen: make the reader watch
      it fill up.
      ====================================================================== */
 
@@ -162,8 +162,8 @@
     { n: 1,    l: 'Student',  c: 'It starts with one.' },
     { n: 30,   l: 'A class',  c: 'One class learns the routine.' },
     { n: 250,  l: 'A school', c: 'One school fills its zone.' },
-    { n: 1200, l: 'Students', c: 'Four schools, four zones.' },
-    { n: 5000, l: 'Students', c: 'Every zone. One count. One take.' }
+    { n: 1000, l: 'Students', c: 'Four schools, four zones.' },
+    { n: 3000, l: 'Students', c: 'Every zone. One count. One take.' }
   ];
 
   function crowd() {
@@ -176,7 +176,7 @@
 
     var ctx = cv.getContext('2d'), W = 0, H = 0, people = [], shown = 0;
 
-    // Build the full 5,000 once; the scroll only changes how many are drawn.
+    // Build the full 3,000 once; the scroll only changes how many are drawn.
     function build() {
       var dpr = Math.min(window.devicePixelRatio || 1, 2);
       W = cv.clientWidth; H = cv.clientHeight;
@@ -185,7 +185,7 @@
 
       people = [];
       var horizon = H * 0.46, floor = H * 1.04;
-      for (var i = 0; i < 5000; i++) {
+      for (var i = 0; i < 3000; i++) {
         // Bias toward the viewer so the near rows crowd and the far rows thin.
         var t = Math.pow(Math.random(), 0.55);
         var y = horizon + (floor - horizon) * t;
@@ -286,8 +286,8 @@
 
     function fmt(n) { return n.toLocaleString('en-IN'); }
 
-    // Count reaches 5,000 by COUNT_DONE, holds just long enough to register,
-    // then the frame dissolves. Push this much past 0.9 and 5,000 flashes by
+    // Count reaches 3,000 by COUNT_DONE, holds just long enough to register,
+    // then the frame dissolves. Push this much past 0.9 and 3,000 flashes by
     // unread; pull it much below 0.85 and the pin feels stuck, because every
     // remaining scroll of the pin happens with nothing on screen changing.
     var COUNT_DONE = 0.88;
@@ -299,7 +299,7 @@
       var local = (p * STEPS.length) - seg;
       var target = STEPS[seg];
       var n = Math.round(prev.n + (target.n - prev.n) * Math.min(local * 1.35, 1));
-      n = Math.max(1, Math.min(n, 5000));
+      n = Math.max(1, Math.min(n, 3000));
 
       if (n !== shown) { shown = n; draw(n); nEl.textContent = fmt(n); }
       if (lEl.textContent !== target.l) lEl.textContent = target.l;
@@ -309,7 +309,7 @@
     build();
 
     if (RM.matches) {                                    // final state, no scrubbing
-      draw(5000); nEl.textContent = '5,000'; lEl.textContent = 'Students';
+      draw(3000); nEl.textContent = '3,000'; lEl.textContent = 'Students';
       cEl.textContent = STEPS[STEPS.length - 1].c;
       return;
     }
@@ -321,7 +321,7 @@
     if (cannotScroll()) {
       sec.style.height = '';
       pin.style.height = vh() + 'px';
-      draw(5000); nEl.textContent = '5,000'; lEl.textContent = 'Students';
+      draw(3000); nEl.textContent = '3,000'; lEl.textContent = 'Students';
       cEl.textContent = STEPS[STEPS.length - 1].c;
       return;
     }
@@ -334,14 +334,14 @@
 
     // The frame fades in as it arrives and dissolves as it leaves. Without the
     // first, the readout rides up over the section above while that section is
-    // still on screen; without the second, 5,000 slides away as a solid block
+    // still on screen; without the second, 3,000 slides away as a solid block
     // instead of handing off to what follows.
     var fadeIn = 0, fadeOut = 1;
     function applyFade() {
       pin.style.opacity = Math.max(0, Math.min(1, Math.min(fadeIn, fadeOut)));
     }
     // Exit: the frame dissolves as it scrolls away, over exactly its own
-    // height, so 5,000 hands off to the next section instead of sliding off
+    // height, so 3,000 hands off to the next section instead of sliding off
     // as a solid block. Driven by geometry rather than pin progress, because
     // the fade has to happen AFTER the pin releases.
     function exitFromRect() {
@@ -714,7 +714,7 @@
       var c = window.EVENT_CONFIG || {};
       var g = function (n) { return (f.elements[n] && f.elements[n].value || '').trim(); };
       var body = [
-        'School participation — 31 October record attempt', '',
+        'School participation — 6 November record attempt', '',
         'School: ' + g('school'),
         'Contact: ' + g('person'),
         'Phone: ' + g('phone'),

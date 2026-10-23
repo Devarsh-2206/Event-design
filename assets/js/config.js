@@ -10,8 +10,8 @@ window.EVENT_CONFIG = {
 
   /* ---- 1. EVENT DETAILS ------------------------------------------------ */
 
-  eventDate:   "31 October",
-  eventDay:    "",          // e.g. "Saturday"
+  eventDate:   "6 November",
+  eventDay:    "Friday",    // 6 November 2026 is a Friday
 
   venueShort:  "Rampally X Road",
   venueCity:   " Hyderabad",
