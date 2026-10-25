@@ -1,0 +1,22 @@
+# Cloudflare Pages reads this file; GitHub Pages ignores it, so it is safe on
+# both. Paths are matched against the served site, not the repository.
+
+/assets/fonts/*
+  Cache-Control: public, max-age=2592000
+  Access-Control-Allow-Origin: *
+
+/assets/images/*
+  Cache-Control: public, max-age=2592000
+
+/assets/css/*
+  Cache-Control: public, max-age=86400
+
+/assets/js/*
+  Cache-Control: public, max-age=86400
+
+# The page itself must not be cached hard, or a school opens a stale copy of
+# the registration flow after the next deploy.
+/
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
