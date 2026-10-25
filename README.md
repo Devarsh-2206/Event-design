@@ -49,7 +49,7 @@ Nothing else needs touching.
 | `whatsapp` | Coordinator's WhatsApp, digits with country code — already set to `919912912722` |
 | `phone` / `email` | Footer contact details |
 | `price` / `priceNote` | The participation fee and what it covers |
-| `guest1Name` / `guest2Name` | Guest names — Malla Reddy and Shekar Master |
+| `guest1Name` / `guest2Name` | Guest names — written with the honorific, "Malla Reddy Garu" and "Shekar Master Garu" |
 | `instagram` | Handle without the `@` |
 | `officeAddress` | SNK's office. Not the venue — those are different places |
 
@@ -80,8 +80,9 @@ Three items on the page make factual claims. Please confirm each one:
 
 1. **The guest names and photographs.** Both guests are now named as chief
    guests without a "to be confirmed" tag, because SNK's own event poster
-   announces them that way — Malla Reddy (Founder Chairman, Malla Reddy Group
-   of Institutions) and Shekar Master. Johnny Master was an alternative in the
+   announces them that way — Malla Reddy Garu (Founder Chairman, Malla Reddy
+   Group of Institutions) and Shekar Master Garu. Both are named with the
+   honorific on the page; the institution keeps its own registered name. Johnny Master was an alternative in the
    original brief and has been ruled out; he appears nowhere on the page.
 
    The portraits come from the photographs SNK supplied, kept in
